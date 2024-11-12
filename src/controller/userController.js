@@ -6,6 +6,11 @@ export const createUser = async (req, res) => {
     try {
         const { name, lastname, email, password, guest, carrers } = req.body;
 
+        // Validación para evitar campos vacíos
+        if (!name || !lastname || !email || !password || guest === undefined || !carrers) {
+            return res.status(400).json({ error: "Todos los campos son obligatorios" });
+        }
+
         const newUser = new User({
             name,
             lastname,
@@ -52,12 +57,13 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, lastname, email, password, guest, carrers } = req.body;
+        const updateData = req.body;
 
+        // Solo actualiza los campos que están definidos en `req.body`
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name, lastname, email, password, guest, carrers },
-            { new: true }
+            { $set: updateData },
+            { new: true, runValidators: true }
         );
 
         if (!updatedUser) {
@@ -69,6 +75,7 @@ export const updateUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Eliminar un usuario por ID
 export const deleteUser = async (req, res) => {
