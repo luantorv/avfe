@@ -40,16 +40,51 @@ export const getUsers = async (req, res) => {
 // Obtener un usuario por ID
 export const getUserById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const user = await User.findById(id);
+        //console.log(req.query)
+        //console.log('Query _id:', req.query._id);
+        //console.log('Tipo de _id:', typeof req.query._id);
 
+        const _id = req.query._id
+        // const { _id } = req.params   // por alguna razón de ésta forma no funciona
+
+        //console.log(_id)
+
+        if ( !_id ) {
+            return res.status(400).json({ message: 'Se requiere el parámetro _id.' });
+        }
+
+        const user = await User.findById(_id);
+        
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+        
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Buscar un usuario por email
+export const getUserByEmail = async (req, res) => {
+    try {
+        // const { email } = req.params;
+        //console.log(req.query)
+        const email = req.query.email   // Obteniendo el email de los parámetros de la ruta
+
+        if ( !email ) {
+            return res.status(400).json({ message: 'Se requiere el parámetro email.' });
+        }
+
+        const user = await User.findOne({ email }); // Buscando usuario por email
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado.' });
         }
 
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Error al buscar el usuario por email.' });
     }
 };
 
