@@ -88,6 +88,37 @@ export const getUserByEmail = async (req, res) => {
     }
 };
 
+// Buscar usuario por un valor específico
+export const getUserByValue = async (req, res) => {
+    try {
+      const { name, lastname, email, guest} = req.query; // Obteniendo los valores de la consulta en la URL
+  
+      // Verificar que al menos un parámetro sea proporcionado
+      if (!name && !lastname && !email && !guest) {
+        return res.status(400).json({ message: 'Se requiere al menos un parámetro de consulta (name, lastname, email o guest).' });
+      }
+  
+      // Construir la consulta dinámicamente
+      const query = {};
+      if (name) query.name = name; // Agregar filtro por nombre si se proporciona
+      if (lastname) query.lastname = lastname; // Agregar filtro por apellido si se proporciona
+      if (email) query.email = email; // Agregar filtro por email si se proporciona
+      if (guest) query.guest = guest; // Agregar filtro por guest si se proporciona
+  
+      // Buscar usuarios que coincidan con la consulta
+      const users = await User.find(query);
+  
+      if (!users || users.length === 0) {
+        return res.status(404).json({ message: 'No se encontraron usuarios que coincidan con los valores proporcionados.' });
+      }
+  
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al buscar usuarios.' });
+    }
+  };
+  
+
 // Actualizar un usuario por ID
 export const updateUser = async (req, res) => {
     try {
@@ -112,17 +143,30 @@ export const updateUser = async (req, res) => {
 };
 
 
-// Eliminar un usuario por ID
-export const deleteUser = async (req, res) => {
+// Eliminar varios usuarios por sus IDs
+export const deleteUsers = async (req, res) => {
     try {
-        const { id } = req.params;
-        const deletedUser = await User.findByIdAndDelete(id);
+        // Obtener el array de usuarios desde el cuerpo de la solicitud
+        const users = req.body;  // Asumiendo que el array de usuarios se pasa en el cuerpo de la solicitud
 
-        if (!deletedUser) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+        if (!Array.isArray(users) || users.length === 0) {
+            return res.status(400).json({ message: "Se requiere un array de usuarios con al menos un _id." });
         }
 
-        res.status(200).json({ message: "Usuario eliminado", user: deletedUser });
+        // Extraer los _id de los usuarios
+        const ids = users.map(user => user._id);
+        
+        // Eliminar los usuarios usando sus _id
+        const deletedUsers = await User.find({ '_id': { $in: ids } }).select('_id name lastname email'); // Seleccionar solo los campos necesarios
+        if (deletedUsers.length === 0) {
+            return res.status(404).json({ message: "No se encontraron usuarios con los _id proporcionados." });
+        }
+
+        // Eliminar los usuarios encontrados
+        await User.deleteMany({ '_id': { $in: ids } });
+
+        // Devolver los usuarios eliminados
+        res.status(200).json({ message: "Usuarios eliminados correctamente", users: deletedUsers });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

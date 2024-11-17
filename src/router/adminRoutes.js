@@ -11,6 +11,7 @@ router.put('/carrer', ) // update
 router.drop('/carrer', ) // delete
 
 // Gestión de Materias
+router.get('/')
 router.post('/subject', ) // create
 router.put('/subject', ) // update
 router.drop('/subject', ) // delete
