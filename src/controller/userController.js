@@ -37,18 +37,41 @@ export const getUsers = async (req, res) => {
     }
 };
 
+// Profile
+export const getProfyle = async (req, res) => {
+    try {
+        const { email } = req.params
+        
+        if ( !email ) {
+            return res.status(400).json({ message: 'Se requiere el email del usuario.' });
+        }
+
+        const user = await User.findOne({ email });
+        
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+        
+        res.status(200).json(
+            {
+                name: user.name,
+                lastname: user.lastname,
+                email: user.email,
+                carrers: user.carrers,
+                createdAt: user.createdAt
+            }
+        )
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 // Obtener un usuario por ID
 export const getUserById = async (req, res) => {
     try {
-        //console.log(req.query)
-        //console.log('Query _id:', req.query._id);
-        //console.log('Tipo de _id:', typeof req.query._id);
-
         const _id = req.query._id
-        // const { _id } = req.params   // por alguna razón de ésta forma no funciona
-
-        //console.log(_id)
-
+        
         if ( !_id ) {
             return res.status(400).json({ message: 'Se requiere el parámetro _id.' });
         }
