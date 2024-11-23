@@ -10,28 +10,6 @@ export const getSubjects = async (req, res) => {
     }
 };
 
-// Buscar materia por ID
-export const getSubjectById = async (req, res) => {
-    try {
-        //const { id } = req.params;
-        const _id = req.query._id
-
-        if ( !_id ) {
-            return res.status(400).json({ message: 'Se requiere el parámetro _id.' });
-        }
-
-        const subject = await Subject.findById(_id);
-
-        if (!subject) {
-            return res.status(404).json({ message: 'Materia no encontrada.' });
-        }
-
-        res.status(200).json(subject);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al buscar la materia por ID.' });
-    }
-};
-
 // Buscar carreras según el tipo de carrera
 export const getCareersByType = async (req, res) => {
   try {
