@@ -1,13 +1,21 @@
 import Section from './../model/section.js';
+import mongoose from 'mongoose';
 
 // Obtener una sección por ID
 export async function getSectionById(req, res) {
   try {
     const { id } = req.params;
-    const section = await findById(id).populate('subsections');
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "El ID proporcionado no es válido." });
+    }
+
+    const section = await Section.findById(id).populate('subsections');
+
     if (!section) {
       return res.status(404).json({ message: 'Sección no encontrada' });
     }
+
     res.status(200).json(section);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -17,7 +25,23 @@ export async function getSectionById(req, res) {
 // Crear una nueva sección
 export async function createSection(req, res) {
   try {
-    const section = new Section(req.body);
+    const { section_id, title, type_sec, author, body, subsections } = req.body;
+
+    // Validar campos requeridos manualmente (opcional, ya que el esquema lo valida también)
+    if (!title || !type_sec || !author || !body) {
+      return res.status(400).json({ error: "Todos los campos requeridos deben estar completos." });
+    }
+
+    // Crear una nueva sección
+    const section = new Section({
+      section_id: section_id || undefined, // Dejar que se genere automáticamente si no se proporciona
+      title,
+      type_sec,
+      author,
+      body,
+      subsections,
+    });
+
     const savedSection = await section.save();
     res.status(201).json(savedSection);
   } catch (error) {
@@ -57,10 +81,13 @@ export async function updateSection(req, res) {
 export async function deleteSection(req, res) {
   try {
     const { id } = req.params;
-    const deletedSection = await findByIdAndDelete(id);
+
+    const deletedSection = await Section.findByIdAndDelete(id);
+
     if (!deletedSection) {
       return res.status(404).json({ message: 'Sección no encontrada' });
     }
+
     res.status(200).json({ message: 'Sección eliminada correctamente' });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -73,7 +100,7 @@ export async function addSubsection(req, res) {
     const { id } = req.params;
     const { subsectionId } = req.body;
 
-    const section = await findById(id);
+    const section = await Section.findById(id);
     if (!section) {
       return res.status(404).json({ message: 'Sección no encontrada' });
     }
@@ -95,7 +122,7 @@ export async function deleteSubsection(req, res) {
     const { id } = req.params;
     const { subsectionId } = req.body;
 
-    const section = await findById(id);
+    const section = await Section.findById(id);
     if (!section) {
       return res.status(404).json({ message: 'Sección no encontrada' });
     }

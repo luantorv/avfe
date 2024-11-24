@@ -1,9 +1,9 @@
 import { Schema, Types, model } from 'mongoose';
 
 const sectionSchema = new Schema({
-  section_id: { type: Schema.Types.ObjectId, default: Types.ObjectId },
+  section_id: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
   title: { type: String, required: true, trim: true },
-  type_sec: { type: String, required: true, enum: ["main","pending","info"], trim: true },
+  type_sec: { type: String, required: true, enum: ["news","pending","info"], trim: true },
   author: { type: String, required: true, trim: true },
   body: { type: String, required: true },
   status: { type: Boolean, default: false },

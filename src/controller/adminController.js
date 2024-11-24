@@ -1,12 +1,12 @@
-import Career from './../model/carrer.js';
+import Carrer from './../model/carrer.js';
 import Subject from './../model/subject.js';
 
 export const createCareers = async (req, res) => {
     try {
-        const careers = req.body; // Recibimos un array de carreras en el body
+        const carrers = req.body; // Recibimos un array de carreras en el body
 
         // Validación básica
-        if (!careers || !Array.isArray(careers) || careers.length === 0) {
+        if (!carrers || !Array.isArray(carrers) || carrers.length === 0) {
             return res.status(400).json({ message: 'Se requiere un array de carreras para procesar.' });
         }
 
@@ -16,28 +16,28 @@ export const createCareers = async (req, res) => {
             invalid: []   // Carreras con datos inválidos
         };
 
-        for (const careerData of careers) {
+        for (const carrerData of carrers) {
             try {
-                // Verificar si la carrera ya existe por su `career_id`
-                const existingCareer = await Career.findOne({ career_id: careerData.career_id });
+                // Verificar si la carrera ya existe por su `carrer_id`
+                const existingCarrer = await Carrer.findOne({ carrer_id: carrerData.carrer_id });
                 
-                if (existingCareer) {
+                if (existingCarrer) {
                     results.existing.push({
-                        career_id: careerData.career_id,
-                        reason: 'Carrera ya existente.'
+                        carrer_id: carrerData.carrer_id,
+                        reason: 'Esta carrera ya existente.'
                     });
                     continue;
                 }
 
                 // Crear una nueva carrera
-                const newCareer = new Career(careerData);
-                await newCareer.save();
-                results.created.push(newCareer);
+                const newCarrer = new Carrer(carrerData);
+                await newCarrer.save();
+                results.created.push(newCarrer);
 
             } catch (error) {
                 // Manejar errores individuales, como validaciones fallidas
                 results.invalid.push({
-                    career: careerData,
+                    career: carrerData,
                     error: error.message
                 });
             }
@@ -101,7 +101,7 @@ Ejemplo de la una respuesta mixta:
     "results": {
         "created": [
             {
-                "career_id": "IS",
+                "carrer_id": "IS",
                 "name": "Ingeniería de Sistemas",
                 "type_c": "Grado",
                 "subjects": [],
@@ -109,7 +109,7 @@ Ejemplo de la una respuesta mixta:
                 "updatedAt": "2024-11-21T14:55:32.123Z"
             },
             {
-                "career_id": "DDS",
+                "carrer_id": "DDS",
                 "name": "Diplomado en Data Science",
                 "type_c": "Diplomatura",
                 "subjects": [],
@@ -121,12 +121,12 @@ Ejemplo de la una respuesta mixta:
         "invalid": [
             {
                 "career": {
-                    "career_id": "C003",
+                    "carrer_id": "C003",
                     "name": "",
                     "type_c": "Posgrado",
                     "subjects": []
                 },
-                "error": "Career validation failed: name: Path `name` is required."
+                "error": "Carrer validation failed: name: Path `name` is required."
             }
         ]
     }
@@ -135,10 +135,10 @@ Ejemplo de la una respuesta mixta:
 
 export const updateCareers = async (req, res) => {
     try {
-        const careersToUpdate = req.body; // Recibe un array de carreras en el body
+        const carrersToUpdate = req.body; // Recibe un array de carreras en el body
 
         // Validación básica
-        if (!careersToUpdate || !Array.isArray(careersToUpdate) || careersToUpdate.length === 0) {
+        if (!carrersToUpdate || !Array.isArray(carrersToUpdate) || carrersToUpdate.length === 0) {
             return res.status(400).json({ message: 'Se requiere un array de carreras para actualizar.' });
         }
 
@@ -148,22 +148,22 @@ export const updateCareers = async (req, res) => {
             invalid: []   // Carreras que fallaron por errores en el proceso
         };
 
-        for (const careerData of careersToUpdate) {
-            const { career_id, ...fieldsToUpdate } = careerData;
+        for (const carrerData of carrersToUpdate) {
+            const { carrer_id, ...fieldsToUpdate } = carrerData;
 
             // Verificar si el `carrer_id` fue proporcionado
-            if (!career_id) {
+            if (!carrer_id) {
                 results.invalid.push({
-                    career: careerData,
-                    error: 'Se requiere el campo `career_id` para identificar la carrera.'
+                    career: carrerData,
+                    error: 'Se requiere el campo `carrer_id` para identificar la carrera.'
                 });
                 continue;
             }
 
             try {
                 // Intentar actualizar la carrera
-                const updatedCareer = await Career.findOneAndUpdate(
-                    { career_id }, // Identificar la carrera por su `career_id`
+                const updatedCareer = await Carrer.findOneAndUpdate(
+                    { carrer_id }, // Identificar la carrera por su `carrer_id`
                     { $set: fieldsToUpdate }, // Actualizar solo los campos proporcionados
                     { new: true, runValidators: true } // Devolver el documento actualizado y validar
                 );
@@ -171,7 +171,7 @@ export const updateCareers = async (req, res) => {
                 if (!updatedCareer) {
                     // Si no se encuentra la carrera, agregar a `notFound`
                     results.notFound.push({
-                        career_id,
+                        carrer_id,
                         reason: 'Carrera no encontrada.'
                     });
                     continue;
@@ -182,7 +182,7 @@ export const updateCareers = async (req, res) => {
             } catch (error) {
                 // Manejar errores individuales
                 results.invalid.push({
-                    career: careerData,
+                    career: carrerData,
                     error: error.message
                 });
             }
@@ -205,16 +205,16 @@ de los campos serán los campos a actualizar de esa carrera.
 Ejemplo del body de la consulta:
 [
     {
-        "career_id": "carrera01",
+        "carrer_id": "carrera01",
         "name": "Ingeniería Civil",
         "type_c": "Grado"
     },
     {
-        "career_id": "carrera02",
+        "carrer_id": "carrera02",
         "subjects": ["648a0d62b1c2e8d12f23a4d8"]
     },
     {
-        "career_id": "carrera_inexistente",
+        "carrer_id": "carrera_inexistente",
         "name": "Carrera Fantasma"
     }
 ]
@@ -234,7 +234,7 @@ Ejemplo de respuesta mixta:
         "updated": [
             {
                 "_id": "648a0d62b1c2e8d12f23a4d7",
-                "career_id": "carrera01",
+                "carrer_id": "carrera01",
                 "name": "Ingeniería Civil",
                 "type_c": "Grado",
                 "subjects": [],
@@ -243,7 +243,7 @@ Ejemplo de respuesta mixta:
             },
             {
                 "_id": "648a0d62b1c2e8d12f23a4d9",
-                "career_id": "carrera02",
+                "carrer_id": "carrera02",
                 "name": "Diseño Gráfico",
                 "type_c": "Pregrado",
                 "subjects": ["648a0d62b1c2e8d12f23a4d8"],
@@ -253,7 +253,7 @@ Ejemplo de respuesta mixta:
         ],
         "notFound": [
             {
-                "career_id": "carrera_inexistente",
+                "carrer_id": "carrera_inexistente",
                 "reason": "Carrera no encontrada."
             }
         ],
@@ -264,28 +264,28 @@ Ejemplo de respuesta mixta:
 
 export const deleteCareers = async (req, res) => {
     try {
-        const { career_ids } = req.body; // Array de career_id en el body
+        const { carrer_ids } = req.body; // Array de carrer_id en el body
 
         // Validación básica
-        if (!career_ids || !Array.isArray(career_ids) || career_ids.length === 0) {
-            return res.status(400).json({ message: 'Se requiere un array de `career_id` para eliminar.' });
+        if (!carrer_ids || !Array.isArray(carrer_ids) || carrer_ids.length === 0) {
+            return res.status(400).json({ message: 'Se requiere un array de `carrer_id` para eliminar.' });
         }
 
         const results = {
             deleted: [], // Carreras eliminadas exitosamente
-            notFound: [], // Carreras cuyo `career_id` no se encontró
+            notFound: [], // Carreras cuyo `carrer_id` no se encontró
             errors: [] // Errores ocurridos durante la eliminación
         };
 
-        for (const career_id of career_ids) {
+        for (const carrer_id of carrer_ids) {
             try {
-                // Intentar eliminar la carrera por `career_id`
-                const deletedCareer = await Career.findOneAndDelete({ career_id });
+                // Intentar eliminar la carrera por `carrer_id`
+                const deletedCareer = await Carrer.findOneAndDelete({ carrer_id });
 
                 if (!deletedCareer) {
                     // Si no se encuentra la carrera, agregar a `notFound`
                     results.notFound.push({
-                        career_id,
+                        carrer_id,
                         reason: 'Carrera no encontrada.'
                     });
                     continue;
@@ -296,7 +296,7 @@ export const deleteCareers = async (req, res) => {
             } catch (error) {
                 // Si ocurre un error, agregarlo a la lista de errores
                 results.errors.push({
-                    career_id,
+                    carrer_id,
                     reason: error.message
                 });
             }
@@ -318,7 +318,7 @@ serán los que se busca eliminar.
 
 Ejemplo del body de la consulta:
 {
-    "career_ids": ["carrera01", "carrera02", "carrera_inexistente", "carrera_error"]
+    "carrer_ids": ["carrera01", "carrera02", "carrera_inexistente", "carrera_error"]
 }
 
 Las respuestas cuentan con dos partes:
@@ -327,10 +327,10 @@ Las respuestas cuentan con dos partes:
  elimina, en caso contrario devolverá el mensaje del error
 - results: está dividido en tres campos:
     - deleted: contiene todas las carreras que se eliminaron exitosamente
-    - notFound: contiene todas las carreras cuyo `career_id` no se encontró
+    - notFound: contiene todas las carreras cuyo `carrer_id` no se encontró
     - errors: contiene todas las carreras que fallaron por errores en el proceso,
     si una carrera no se encuentra o falla en el proceso, se agregará un objeto
-    con el `career_id` y el motivo del error.
+    con el `carrer_id` y el motivo del error.
 
 Ejemplo de una respuesta mixta:
 {
@@ -339,7 +339,7 @@ Ejemplo de una respuesta mixta:
         "deleted": [
             {
                 "_id": "648a0d62b1c2e8d12f23a4d7",
-                "career_id": "carrera01",
+                "carrer_id": "carrera01",
                 "name": "Ingeniería Civil",
                 "type_c": "Grado",
                 "subjects": [],
@@ -348,7 +348,7 @@ Ejemplo de una respuesta mixta:
             },
             {
                 "_id": "648a0d62b1c2e8d12f23a4d8",
-                "career_id": "carrera02",
+                "carrer_id": "carrera02",
                 "name": "Diseño Gráfico",
                 "type_c": "Pregrado",
                 "subjects": [],
@@ -358,13 +358,13 @@ Ejemplo de una respuesta mixta:
         ],
         "notFound": [
             {
-                "career_id": "carrera_inexistente",
+                "carrer_id": "carrera_inexistente",
                 "reason": "Carrera no encontrada."
             }
         ],
         "errors": [
             {
-                "career_id": "carrera_error",
+                "carrer_id": "carrera_error",
                 "reason": "Error de base de datos al intentar eliminar esta carrera."
             }
         ]

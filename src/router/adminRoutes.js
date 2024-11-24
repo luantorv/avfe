@@ -8,11 +8,11 @@ const router = express.Router()
 // Gestión de Carreras
 router.post('/carrer', createCareers)
 router.put('/carrer', updateCareers)
-router.drop('/carrer', deleteCareers)
+router.delete('/carrer', deleteCareers)
 
 // Gestión de Materias
 router.post('/subject', createSubjects)
 router.put('/subject', updateSubjects)
-router.drop('/subject', deleteSubjects)
+router.delete('/subject', deleteSubjects)
 
 export default router

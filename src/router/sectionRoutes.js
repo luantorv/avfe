@@ -7,6 +7,6 @@ router.post('/create', createSection); // Crear una nueva sección
 router.put('/update/:id', updateSection); // Actualizar una sección por ID
 router.delete('/drop/:id', deleteSection); // Eliminar una sección por ID
 router.post('/add_subsection/:id', addSubsection); // Agregar una subsección
-router.post('/delete_subsection/:id', deleteSubsection); // Eliminar una subsección
+router.delete('/delete_subsection/:id', deleteSubsection); // Eliminar una subsección
 
 export default router;

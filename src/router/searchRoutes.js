@@ -6,7 +6,7 @@ import { getSubjects, getSubjectByCarrer, getCareersByType } from './../controll
 const router = express.Router()
 
 router.get('/list', getSubjects);
-router.get('/bytype', getCareersByType)
-router.get('/bycarrer', getSubjectByCarrer);
+router.get('/bytype/:type', getCareersByType)
+router.get('/bycarrer/:carrer', getSubjectByCarrer);
 
 export default router

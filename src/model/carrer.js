@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const CareerSchema = new Schema({
-  career_id: { type: String, required: true, unique: true, trim: true },
+  carrer_id: { type: String, required: true, unique: true, trim: true },
   name: { type: String, required: true, trim: true },
   type_c: { type: String, required: true, enum: ["Ingreso", "Pregrado", "Grado", "Posgrado", "Diplomatura", "Cursos"], trim: true },
   subjects: [

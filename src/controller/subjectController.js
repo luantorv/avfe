@@ -419,7 +419,7 @@ export const deleteSections = async (req, res) => {
 /*
 Las consultas se manejan igual que addSections, pero las respuestas las maneja de
 forma diferente.
-En las respuestas se incluyen las siguientes 3 partes para así contenplar todos
+En las respuestas se incluyen las siguientes 3 partes para así contemplar todos
 los posibles escenarios:
 
 - removedSections: Secciones eliminadas correctamente
