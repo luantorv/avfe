@@ -4,28 +4,61 @@ import User from './../model/user.js';
 // Crear un nuevo usuario
 export const createUser = async (req, res) => {
     try {
-        const { name, lastname, email, password, guest, carrers } = req.body;
+        const users = req.body; // Array de usuarios a crear
 
-        // Validación para evitar campos vacíos
-        if (!name || !lastname || !email || !password || guest === undefined || !carrers) {
-            return res.status(400).json({ error: "Todos los campos son obligatorios" });
+        if (!Array.isArray(users) || users.length === 0) {
+            return res.status(400).json({ error: "Debe proporcionar un array de usuarios para crear." });
         }
 
-        const newUser = new User({
-            name,
-            lastname,
-            email,
-            password,
-            guest,
-            carrers
-        });
+        const results = {
+            created: [], // Usuarios creados exitosamente
+            errors: [] // Usuarios que no se pudieron crear
+        };
 
-        await newUser.save();
-        res.status(201).json({ message: "Usuario creado exitosamente", user: newUser });
+        for (const user of users) {
+            const { name, lastname, email, password, guest, carrers } = user;
+
+            // Validación de campos obligatorios
+            if (!name || !lastname || !email || !password || guest === undefined || !carrers) {
+                results.errors.push({
+                    user,
+                    reason: "Faltan campos obligatorios."
+                });
+                continue;
+            }
+
+            try {
+                // Crear y guardar el usuario
+                const newUser = new User({
+                    name,
+                    lastname,
+                    email,
+                    password,
+                    guest,
+                    carrers
+                });
+
+                await newUser.save();
+                results.created.push(newUser);
+            } catch (error) {
+                // Manejar errores de creación, como duplicados u otros errores
+                results.errors.push({
+                    user,
+                    reason: error.message
+                });
+            }
+        }
+
+        // Responder con el resumen de la operación
+        res.status(201).json({
+            message: "Proceso de creación de usuarios completado.",
+            results
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Obtener todos los usuarios
 export const getUsers = async (req, res) => {

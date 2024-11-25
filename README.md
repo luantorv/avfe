@@ -158,7 +158,7 @@ Archivo que se encarga de dirigir las peticiones al router correspondiente.
 3. Si pasan las validaciones las rutas llaman a los controladores correspondientes en `controller/`.
 4. Los controladores interactúan con los modelos en `model/` para manejar la lógica de datos.
 
-## Endpoints y API
+## Endpoints
 
 #### POST /admin/carrer
 Crea las carreras que se pasan en el body como un array de objetos de la siguiente manera:
@@ -501,32 +501,32 @@ Ejemplo:
 ```JSON
 [
     {
-    "name": "MATEMÁTICA",
-    "carrers": ["Ingreso"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "MATEMÁTICA",
+        "carrers": ["Ingreso"],
+        "professors": [],
+        "students": [],
+        "sections": []
     },
     {
-    "name": "INFORMÁTICA BÁSICA",
-    "carrers": ["Ingreso"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "INFORMÁTICA BÁSICA",
+        "carrers": ["Ingreso"],
+        "professors": [],
+        "students": [],
+        "sections": []
     },
     {
-    "name": "ESTRATEGIAS DE APRENDIZAJE",
-    "carrers": ["Ingreso"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "ESTRATEGIAS DE APRENDIZAJE",
+        "carrers": ["Ingreso"],
+        "professors": [],
+        "students": [],
+        "sections": []
     },
     {
-    "name": "BIOLOGÍA",
-    "carrers": ["Ingreso"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "BIOLOGÍA",
+        "carrers": ["Ingreso"],
+        "professors": [],
+        "students": [],
+        "sections": []
     }
 ]
 ```
@@ -544,29 +544,861 @@ Ejemplo:
 ```JSON
 [
     {
-    "name": "ELEMENTOS DE MATEMÁTICA",
-    "carrers": ["IQ", "LA"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "ELEMENTOS DE MATEMÁTICA",
+        "carrers": ["IQ", "LA"],
+        "professors": [],
+        "students": [],
+        "sections": []
     },
     {
-    "name": "ANÁLISIS I",
-    "carrers":["IA","IQ","LA"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "ANÁLISIS I",
+        "carrers":["IA","IQ","LA"],
+        "professors": [],
+        "students": [],
+        "sections": []
     },
     {
-    "name": "ÁLGEBRA LINEAL",
-    "carrers":["IA","IQ","LA"],
-    "professors": [],
-    "students": [],
-    "sections": []
+        "name": "ÁLGEBRA LINEAL",
+        "carrers":["IA","IQ","LA"],
+        "professors": [],
+        "students": [],
+        "sections": []
     }
 ]
 ```
 
+#### GET /section/:id
+Devuelve la sección que el usuario pase como parámetro en la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetros de ruta: `6742a937ab2e7b18804590d2`
+
+- Respuesta:
+    - Codigo de Estado: `200 OK`
+    - Cuerpo (JSON)
+```JSON
+{
+    "_id": "6742a937ab2e7b18804590d2",
+    "section_id": "6742a937ab2e7b18804590d3",
+    "title": "Avisos",
+    "type_sec": "news",
+    "author": "674299ee9b67d2288db27c65",
+    "body": "Aquí se van a enviar los avisos referentes a la materia.",
+    "status": false,
+    "subsections": [],
+    "date": "2024-11-24T04:19:03.062Z",
+    "__v": 2
+}
+```
+
+#### POST /section/create
+Crea la sección que el usuario le pase en el body de la consulta.
+
+Ejemplo:
+- Consulta:
+    - Parámetros de ruta: ninguno
+    - Body (JSON)
+```JSON
+{
+    "title":"Feriado 2/12",
+    "type_sec":"news",
+    "author":"674299ee9b67d2288db27c65",
+    "body":"Les recuerdo que el día lunes 2/12 es el feriado puente del día sábado 30/11.",
+    "status": true,
+    "subsections":[]
+}
+```
+
+- Respuesta:
+    - Codigo de Estado: `201 Created`
+    - Cuerpo (JSON)
+```JSON
+{
+    "section_id": "67438194451578e46c449d29",
+    "title": "Feriado 2/12",
+    "type_sec": "news",
+    "author": "674299ee9b67d2288db27c65",
+    "body": "Les recuerdo que el día lunes 2/12 es el feriado puente del día sábado 30/11.",
+    "status": false,
+    "subsections": [],
+    "_id": "67438194451578e46c449d28",
+    "date": "2024-11-24T19:42:12.664Z",
+    "__v": 0
+}
+```
+
+#### PUT /section/update/:id
+Actualiza la sección con el id que se pasó como parámetro con los campos y valores que se envien en el body en forma de objeto.
+
+>[!IMPORTANT]
+>Solo se tienen que enviar los campos a actualizar
+
+Ejemplo:
+- Consulta:
+    - Parámetros de ruta: `67438194451578e46c449d28`
+    - Body (JSON)
+```JSON
+{
+    "body":"Les recuerdo que el día lunes 2/12 es el feriado puente del día sábado 30/11, Día Conmemoratorio a Andresito Guacurarí, Día de la Bandera de Misiones y Día de la Yerba Mate"
+}
+```
+
+- Respuesta:
+    - Codigo de Estado: `200 OK`
+    - Cuerpo (JSON)
+```JSON
+{
+    "_id": "67438194451578e46c449d28",
+    "section_id": "67438194451578e46c449d29",
+    "title": "Feriado 2/12",
+    "type_sec": "news",
+    "author": "674299ee9b67d2288db27c65",
+    "body": "Les recuerdo que el día lunes 2/12 es el feriado puente del día sábado 30/11, Día Conmemoratorio a Andresito Guacurarí, Día de la Bandera de Misiones y Día de la Yerba Mate",
+    "status": false,
+    "subsections": [],
+    "date": "2024-11-24T19:42:12.664Z",
+    "__v": 0
+}
+```
+
+#### DELETE /section/drop/:id
+Borra la sección con el id que el usuario pase como parámetro en la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetros de ruta: `67438194451578e46c449d28`
+
+- Respuesta:
+    - Codigo de Estado: `200 OK`
+    - Cuerpo (JSON)
+```JSON
+{
+    "message": "Sección eliminada correctamente"
+}
+```
+
+#### POST /section/add_subsection/:id
+Agrega las subsecciones que el usuario indique en el body de la consulta a la sección que se es enviada como parámetro.
+
+>[!IMPORTANT]
+>Esta ruta no crea las subsecciones, solo las añade al campo `subsections` que tiene la sección que las va a contener.
+>Por lo que primero tiene que ir a `/section/create` para crear la/s secciones que pasarán a ser subsecciones, copiar los `_id` de cada una y ahí venir a esta ruta para agregarlas.
+
+Ejemplo:
+- Consulta:
+    - Parámetros de ruta: `6742a937ab2e7b18804590d2`
+    - Body (JSON)
+```JSON
+{
+    "subsectionId":"6743848c451578e46c449d2e"
+}
+```
+
+- Respuesta:
+    - Codigo de Estado: `200 OK`
+    - Cuerpo (JSON)
+```JSON
+{
+    "message": "Subsección agregada",
+    "section": {
+        "_id": "6742a937ab2e7b18804590d2",
+        "section_id": "6742a937ab2e7b18804590d3",
+        "title": "Avisos",
+        "type_sec": "news",
+        "author": "674299ee9b67d2288db27c65",
+        "body": "Aquí se van a enviar los avisos referentes a la materia.",
+        "status": false,
+        "subsections": [
+            "6743848c451578e46c449d2e"
+        ],
+        "date": "2024-11-24T04:19:03.062Z",
+        "__v": 3
+    }
+}
+```
+
+#### DELETE /section/drop_subsection/:id
+Borra las subsecciones que el usuario indique en el body de la consulta a la sección que se es enviada como parámetro.
+
+Ejemplo:
+- Consulta:
+    - Parámetros de ruta: `6742a937ab2e7b18804590d2`
+    - Body (JSON)
+```JSON
+{
+    "subsectionId":"6743848c451578e46c449d2e"
+}
+```
+
+- Respuesta:
+    - Codigo de Estado: `200 OK`
+    - Cuerpo (JSON)
+```JSON
+{
+    "message": "Subsección eliminada",
+    "section": {
+        "_id": "6742a937ab2e7b18804590d2",
+        "section_id": "6742a937ab2e7b18804590d3",
+        "title": "Avisos",
+        "type_sec": "news",
+        "author": "674299ee9b67d2288db27c65",
+        "body": "Aquí se van a enviar los avisos referentes a la materia.",
+        "status": false,
+        "subsections": [],
+        "date": "2024-11-24T04:19:03.062Z",
+        "__v": 4
+    }
+}
+```
+
+#### GET /subject/:id
+Devuelve la materia correspondiente al id que el usuario envió como parámetro en la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "_id": "67426fcfc5890a3654aaa99c",
+    "name": "ANÁLISIS I",
+    "carrers": [
+        "IQ",
+        "IA",
+        "LA"
+    ],
+    "professors": [],
+    "students": [],
+    "sectiones": [
+        {
+            "_id": "6742acf7add2f9d05847899e",
+            "section_id": "6742acf7add2f9d05847899f",
+            "title": "Bienvenidos",
+            "type_sec": "news",
+            "author": "674299ee9b67d2288db27c65",
+            "body": "Bienvenidos a esta materia.",
+            "status": false,
+            "subsections": [],
+            "date": "2024-11-24T04:35:03.739Z",
+            "__v": 0
+        }
+    ],
+    "__v": 0
+}
+```
+
+#### POST /subject/student/:id
+Añade a los estudiantes especificados en el body a la materia correspondiente al id de la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+    - Body (JSON)
+```JSON
+{
+    "students": [
+        { "email": "macie.okon56@hotmail.com" }
+    ]
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Estudiantes agregados exitosamente.",
+    "subject": {
+        "_id": "67426fcfc5890a3654aaa99c",
+        "name": "ANÁLISIS I",
+        "carrers": [
+            "IQ",
+            "IA",
+            "LA"
+        ],
+        "professors": [],
+        "students": [
+            "673fe1c6068559e42f5db214"
+        ],
+        "sectiones": [
+            "6742acf7add2f9d05847899e"
+        ],
+        "__v": 0
+    },
+    "notFoundEmails": []
+}
+```
+>[!NOTE]
+>No se hace un `.populate('students')` ya que aunque puede servir para verificar si se añadieron los alumnos correctos, por la cantidad de alumnos que puede llegar a tener una materia se  vió contraproducente a nivel de recursos.
+
+#### POST /subject/professor/:id
+Añade a los profesores especificados en el body a la materia correspondiente al id de la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+    - Body (JSON)
+```JSON
+{
+    "professors": [
+        { "email": "pepito@gmail.com" }
+    ]
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Profesores agregados exitosamente.",
+    "subject": {
+        "_id": "67426fcfc5890a3654aaa99c",
+        "name": "ANÁLISIS I",
+        "carrers": [
+            "IQ",
+            "IA",
+            "LA"
+        ],
+        "professors": [
+            {
+                "_id": "674299ee9b67d2288db27c65",
+                "name": "Lucas",
+                "lastname": "Podkowa",
+                "email": "pepito@gmail.com",
+                "password": "contraseña",
+                "guest": false,
+                "carrers": [
+                    "LSI"
+                ],
+                "date_entry": "2024-11-24T03:13:50.288Z",
+                "__v": 0
+            }
+        ],
+        "students": [
+            "673fe1c6068559e42f5db214"
+        ],
+        "sectiones": [
+            "6742acf7add2f9d05847899e"
+        ],
+        "__v": 0
+    },
+    "notFoundEmails": []
+}
+```
+>[!NOTE]
+>Se hace un `.populate('professors')` porque normalmente una meteria no tiene tantos profesores, por lo que no acarrearían un malgasto de recursos; además, los profesores tienen más permisos que un alumno, por lo que corroborar que un profesor sea añadido de forma correcta resulta más necesario que a un alumno.
+
+#### POST /subject/section/:id
+Añade las secciones especificadas en el body a la materia correpondiente al id de la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+    - Body (JSON)
+```JSON
+{
+    "sections":[
+        "67438fdc801d4498eb51c5dd"
+    ]
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Secciones agregadas exitosamente.",
+    "subject": {
+        "_id": "67426fcfc5890a3654aaa99c",
+        "name": "ANÁLISIS I",
+        "carrers": [
+            "IQ",
+            "IA",
+            "LA"
+        ],
+        "professors": [
+            "674299ee9b67d2288db27c65"
+        ],
+        "students": [
+            "673fe1c6068559e42f5db214"
+        ],
+        "sectiones": [
+            {
+                "_id": "6742acf7add2f9d05847899e",
+                "section_id": "6742acf7add2f9d05847899f",
+                "title": "Bienvenidos",
+                "type_sec": "news",
+                "author": "674299ee9b67d2288db27c65",
+                "body": "Bienvenidos a esta materia.",
+                "status": false,
+                "subsections": [],
+                "date": "2024-11-24T04:35:03.739Z",
+                "__v": 0
+            },
+            {
+                "_id": "67438fdc801d4498eb51c5dd",
+                "section_id": "67438fdc801d4498eb51c5de",
+                "title": "Recuperatorio",
+                "type_sec": "news",
+                "author": "674299ee9b67d2288db27c65",
+                "body": "El recupetario integrador va a ser el viernes 6/12 a las 7:00hs en el aula 16 del edificio central.",
+                "status": false,
+                "subsections": [],
+                "date": "2024-11-24T20:43:08.048Z",
+                "__v": 0
+            }
+        ],
+        "__v": 0
+    },
+    "notAddedSections": null
+}
+```
+
+#### DELETE /subject/student/:id
+Elimina a los estudiantes especificados en el body de la materia correspondiente al id de la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+    - Body (JSON)
+```JSON
+{
+    "students": [
+        { "email": "macie.okon56@hotmail.com" }
+    ]
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Estudiantes eliminados exitosamente.",
+    "subject": {
+        "_id": "67426fcfc5890a3654aaa99c",
+        "name": "ANÁLISIS I",
+        "carrers": [
+            "IQ",
+            "IA",
+            "LA"
+        ],
+        "professors": [
+            "674299ee9b67d2288db27c65"
+        ],
+        "students": [],
+        "sectiones": [
+            "6742acf7add2f9d05847899e",
+            "67438fdc801d4498eb51c5dd"
+        ],
+        "__v": 0
+    }
+}
+```
+
+#### DELETE /subject/professor/:id
+Elimina a los profesores especificados en el body de la materia correspondiente al id de la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+    - Body (JSON)
+```JSON
+{
+    "professors": [
+        { "email": "pepito@gmail.com" }
+    ]
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Profesores eliminados exitosamente.",
+    "subject": {
+        "_id": "67426fcfc5890a3654aaa99c",
+        "name": "ANÁLISIS I",
+        "carrers": [
+            "IQ",
+            "IA",
+            "LA"
+        ],
+        "professors": [],
+        "students": [],
+        "sectiones": [
+            "6742acf7add2f9d05847899e",
+            "67438fdc801d4498eb51c5dd"
+        ],
+        "__v": 0
+    }
+}
+```
+
+#### DELETE /subject/section/:id
+Elimina las secciones especificadas en el body de la materia correspondiente al id de la ruta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `67426fcfc5890a3654aaa99c`
+    - Body (JSON)
+```JSON
+{
+    "sections": [
+        "67438fdc801d4498eb51c5dd"
+    ]
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Operación completada.",
+    "removedSections": [
+        {
+            "_id": "67438fdc801d4498eb51c5dd",
+            "section_id": "67438fdc801d4498eb51c5de",
+            "title": "Recuperatorio",
+            "type_sec": "news",
+            "author": "674299ee9b67d2288db27c65",
+            "body": "El recupetario integrador va a ser el viernes 6/12 a las 7:00hs en el aula 16 del edificio central.",
+            "status": false,
+            "subsections": [],
+            "date": "2024-11-24T20:43:08.048Z",
+            "__v": 0
+        }
+    ],
+    "invalidSections": [],
+    "unrelatedSections": [],
+    "updatedSubject": {
+        "_id": "67426fcfc5890a3654aaa99c",
+        "name": "ANÁLISIS I",
+        "carrers": [
+            "IQ",
+            "IA",
+            "LA"
+        ],
+        "professors": [],
+        "students": [],
+        "sectiones": [
+            {
+                "_id": "6742acf7add2f9d05847899e",
+                "section_id": "6742acf7add2f9d05847899f",
+                "title": "Bienvenidos",
+                "type_sec": "news",
+                "author": "674299ee9b67d2288db27c65",
+                "body": "Bienvenidos a esta materia.",
+                "status": false,
+                "subsections": [],
+                "date": "2024-11-24T04:35:03.739Z",
+                "__v": 0
+            }
+        ],
+        "__v": 0
+    }
+}
+```
+
+#### GET /users/profyle/:email
+Muestra información básica del usuario del cuál se ha proporcionado el email.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `macie.okon56@hotmail.com`
+    - Body (JSON)
+- Respuesta:
+    - Código de Estado:
+    - Body (JSON)
+```JSON
+{
+    "name": "Dr.",
+    "lastname": "Russel",
+    "email": "macie.okon56@hotmail.com",
+    "carrers": []
+}
+```
+
+#### GET /users/list
+Lista todos los usuarios del sistema.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: ninguno
+    - Body (JSON): ninguno
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+[
+    {
+        "_id": "673fe1c6068559e42f5db214",
+        "name": "Dr.",
+        "lastname": "Russel",
+        "email": "macie.okon56@hotmail.com",
+        "password": "vasCD5l2pdaBZ0b",
+        "guest": true,
+        "carrers": [],
+        "date_entry": "2024-11-22T01:43:34.443Z",
+        "__v": 0
+    },
+    {
+        "_id": "674299069c70e31577d06e67",
+        "name": "Luis Antonio",
+        "lastname": "Reis Viera",
+        "email": "luantorv@gmail.com",
+        "password": "contraseña",
+        "guest": false,
+        "carrers": [
+            "IQ"
+        ],
+        "date_entry": "2024-11-24T03:09:58.089Z",
+        "__v": 0
+    },
+    {
+        "_id": "674299ee9b67d2288db27c65",
+        "name": "Lucas",
+        "lastname": "Podkowa",
+        "email": "pepito@gmail.com",
+        "password": "contraseña",
+        "guest": false,
+        "carrers": [
+            "LSI"
+        ],
+        "date_entry": "2024-11-24T03:13:50.288Z",
+        "__v": 0
+    }
+]
+```
+
+#### GET /users/byemail
+Busca al usuario con el email que fue enviado en la query.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: ninguno
+    - Query: `?email=macie.okon56@hotmail.com`
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "_id": "673fe1c6068559e42f5db214",
+    "name": "Dr.",
+    "lastname": "Russel",
+    "email": "macie.okon56@hotmail.com",
+    "password": "vasCD5l2pdaBZ0b",
+    "guest": true,
+    "carrers": [],
+    "date_entry": "2024-11-22T01:43:34.443Z",
+    "__v": 0
+}
+```
+
+#### GET /users/byid
+Busca y devuelve al usuario del id que fue proporcionado en la query.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta:
+    - Query: `?_id=673fe1c6068559e42f5db214`
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "_id": "673fe1c6068559e42f5db214",
+    "name": "Dr.",
+    "lastname": "Russel",
+    "email": "macie.okon56@hotmail.com",
+    "password": "vasCD5l2pdaBZ0b",
+    "guest": true,
+    "carrers": [],
+    "date_entry": "2024-11-22T01:43:34.443Z",
+    "__v": 0
+}
+```
+
+#### GET /users/byvalue
+Busca a los usuarios que cumplan con la consulta hecha.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: ninguno
+    - Query: `?guest=true`
+    
+>[!TIP]
+>En la query se pueden concatenar consultas con `&` para conseguir respuestas más específicas.
+>Por ejemplo: `?name="Luis"&guest=false"`
+
+- Respuesta:
+    - Código de Estado:
+    - Body (JSON)
+```JSON
+[
+    {
+        "_id": "673fe1c6068559e42f5db214",
+        "name": "Dr.",
+        "lastname": "Russel",
+        "email": "macie.okon56@hotmail.com",
+        "password": "vasCD5l2pdaBZ0b",
+        "guest": true,
+        "carrers": [],
+        "date_entry": "2024-11-22T01:43:34.443Z",
+        "__v": 0
+    }
+]
+```
+
+#### POST /users/create
+Crea a los usuarios que fueron enviados en el body de la consulta en forma de array.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: ninguno
+    - Body (JSON)
+```JSON
+[
+    {
+        "name": "Demian",
+        "lastname": "Viedma",
+        "email": "{{$randomEmail}}",
+        "password": "contraseña",
+        "guest": false,
+        "carrers": ["IQ"]
+    },
+    {
+        "name": "Natahel",
+        "lastname": "Golke",
+        "email": "{{$randomEmail}}",
+        "password": "contraseña",
+        "guest": false,
+        "carrers": ["IA"]
+    },
+    {
+        "name": "Maxi",
+        "lastname": "Sotelo",
+        "email": "{{$randomEmail}}",
+        "password": "contraseña",
+        "guest": false,
+        "carrers": ["IQ"]
+    }
+]
+```
+- Respuesta:
+    - Código de Estado: `201 Created`
+    - Body (JSON)
+```JSON
+{
+    "message": "Proceso de creación de usuarios completado.",
+    "results": {
+        "created": [
+            {
+                "name": "Demian",
+                "lastname": "Viedma",
+                "email": "Jeffrey24@yahoo.com",
+                "password": "contraseña",
+                "guest": false,
+                "carrers": [
+                    "IQ"
+                ],
+                "_id": "6743b01601f9744d489c0a69",
+                "date_entry": "2024-11-24T23:00:38.859Z",
+                "__v": 0
+            },
+            {
+                "name": "Natahel",
+                "lastname": "Golke",
+                "email": "Abbigail.Russel86@gmail.com",
+                "password": "contraseña",
+                "guest": false,
+                "carrers": [
+                    "IA"
+                ],
+                "_id": "6743b01601f9744d489c0a6b",
+                "date_entry": "2024-11-24T23:00:38.953Z",
+                "__v": 0
+            },
+            {
+                "name": "Maxi",
+                "lastname": "Sotelo",
+                "email": "Rowland.Steuber@gmail.com",
+                "password": "contraseña",
+                "guest": false,
+                "carrers": [
+                    "IQ"
+                ],
+                "_id": "6743b01601f9744d489c0a6d",
+                "date_entry": "2024-11-24T23:00:38.965Z",
+                "__v": 0
+            }
+        ],
+        "errors": []
+    }
+}
+```
+
+#### PUT /users/update/:id
+Actualiza al usuario del id proporcionado con los campos y valores que son enviados en el body de la consulta.
+
+Ejemplo:
+- Consulta:
+    - Parámetro de la ruta: `673fe1c6068559e42f5db214`
+    - Body (JSON)
+```JSON
+{
+    "name": "Menganito"
+}
+```
+- Respuesta:
+    - Código de Estado: `200 OK`
+    - Body (JSON)
+```JSON
+{
+    "message": "Usuario actualizado",
+    "user": {
+        "_id": "673fe1c6068559e42f5db214",
+        "name": "Menganito",
+        "lastname": "Russel",
+        "email": "macie.okon56@hotmail.com",
+        "password": "vasCD5l2pdaBZ0b",
+        "guest": true,
+        "carrers": [],
+        "date_entry": "2024-11-22T01:43:34.443Z",
+        "__v": 0
+    }
+}
+```
+
+#### DELETE /users/drop
+Borra los usuarios que son indicados en el body de la consulta en forma de array de id's.
+
+Ejemplo:
+- Consulta:
+    - Body(JSON)
+```JSON
+[
+    { "_id":"6743b01601f9744d489c0a6d"}
+]
+```
+- Respuesta:
+    - Código de Estado: ``
+    - Body (JSON)
+```JSON
+{
+    "message": "Usuarios eliminados correctamente",
+    "users": [
+        {
+            "_id": "6743b01601f9744d489c0a6d",
+            "name": "Maxi",
+            "lastname": "Sotelo",
+            "email": "Rowland.Steuber@gmail.com"
+        }
+    ]
+}
+```
 
 ##### Errores Comunes
 
@@ -576,11 +1408,193 @@ Ejemplo:
 `500 Internal Server Error`: Error inesperado del servidor.
 
 ## Modelos de Datos
+Para el desarrollo de los modelos se hizo uso de la libreria Mongoose, para así crear los schemas necesarios. Estos pueden ser encontrados en `./avfe/src/model/`
 
-## Funcionalidades Clave
+Se han creado cuatro modelos que se detallarán a continuación:
 
-## Problemas Conocidos y Soluciones
+#### carrer.js
+Este es el modelo correspondiente a las carreras existentes en el sistema.
+```JavaScript
+import { Schema, model } from 'mongoose';
 
-## Plan de Desarrollo Futuro
+const CareerSchema = new Schema({
+  carrer_id: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    trim: true 
+    },
+  name: { 
+    type: String, 
+    required: true, 
+    trim: true 
+    },
+  type_c: { 
+    type: String, 
+    required: true, 
+    enum: ["Ingreso", "Pregrado", "Grado", "Posgrado", "Diplomatura", "Cursos"], 
+    trim: true 
+    },
+  subjects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Subject', // Referencia al modelo de materias
+    },
+  ],
+}, {
+  timestamps: true, // Agrega campos `createdAt` y `updatedAt`
+},{ collection: 'carrer' })
+
+export default model('Career', CareerSchema, 'carrer');
+```
+#### subject.js
+Modelo correspondiente a las materias de las carreras dentro del sistema.
+
+```JavaScript
+import { Schema, model } from 'mongoose';
+
+const SubjectSchema = new Schema({
+    name: {
+        type: String, 
+        required: true
+        },
+    carrers: [{ 
+        type: String, 
+        ref: 'Carrer'
+        }],
+    professors: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
+        }],
+    students: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
+        }],
+    sectiones: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Section'
+        }],
+}, { collection: 'subject' });
+
+export default model('Subject', SubjectSchema, 'subject');
+```
+
+#### section.js
+Modelo correspondiente a las secciones y subsecciones que pueden tener las materias.
+```JavaScript
+import { Schema, Types, model } from 'mongoose';
+
+const sectionSchema = new Schema({
+  section_id: { 
+    type: Schema.Types.ObjectId, 
+    default: () => new Types.ObjectId() 
+    },
+  title: { 
+    type: String, 
+    required: true, 
+    trim: true 
+    },
+  type_sec: { 
+    type: String, 
+    required: true, 
+    enum: ["news","pending","info"], 
+    trim: true 
+    },
+  author: { 
+    type: String, 
+    required: true, 
+    trim: true 
+    },
+  body: { 
+    type: String, 
+    required: true 
+    },
+  status: { 
+    type: Boolean, 
+    default: false 
+    },
+  date: { 
+    type: Date, 
+    default: Date.now 
+    },
+  subsections: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Section' // hace referencia a que los id's que se guardarán aquí deben ser de otra section
+    }
+  ]
+},{ collection: 'section' });
+
+export default model('Section', sectionSchema, 'section');
+```
+
+#### user.js
+Modelo que define el Schema para los datos de cada usuario.
+
+```JavaScript
+import { Schema, model } from 'mongoose';
+
+const UserSchema = new Schema({
+    name: { 
+        type: String, 
+        required: true 
+        },
+    lastname: {
+        type: String, 
+        required: true
+        },
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true 
+        },
+    password: { 
+        type: String, 
+        required: true 
+        },
+    date_entry: { 
+        type: Date, 
+        default: Date.now 
+        },
+    guest: {
+        type: Boolean, 
+        required: true
+        },
+    carrers: {
+        type: [String]
+        }, // verifica que sea un array con strings
+}, { collection: 'user' });
+
+export default model('User', UserSchema, 'user');
+
+```
+
+### Relaciones Entre Modelos
+Mediante campos con id's de otros modelos o campos de arrays con id's de otros modelos, éstos se relacionan para poder realizar las diferentes funciones. 
+
+###### Carrer ↔ Subject
+Cada carrera tiene un conjunto de materias que se describen en el campo `subjects` en forma de array.
+Al igual, cada materia tiene un conjunto de carreras denotadas en el campo `carrers`.
+
+###### User ↔ Carrer
+Cada usuario tiene un array destinado a guardar las id's de las carreras a las que está inscripto.
+
+###### Subject ↔ Section
+Cada materia puede tener secciones para guardar y mostrar su información. Éstas estan guardadas en el campo `sections`.
+
+###### Subject ↔ User
+En las materias se guardan dos campos destinados a usuarios `students` y `professors`, para indicar los usuarios con estos roles.
+
+###### Section ↔ Section
+Las secciones tienen un campo `subsections`, en el cuál se puede referenciar a otras secciones para poder estructurar la información.
+
+###### Section ↔ User
+Al igual cada sección tiene un campo `author` para indicar quién creó la sección o subsección.
 
 ## Créditos
+
+Todas las carreras y materias que se han usado de ejemplo son de la Facultad de Ciencias Exactas, Químicas y Naturales de la Universidad Nacional de Misiones. 
+> Para más información: `https://www.fceqyn.unam.edu.ar/`
+
+Este proyecto fue llevado a cabo en el contexto del curso 'Desarrollo BackEnd con JavaScript' de Silicon Misiones.
+> Para más información: `https://siliconmisiones.gob.ar/`
