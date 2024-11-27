@@ -1,18 +1,18 @@
 import express from 'express'
 import { createCareers, updateCareers, deleteCareers, createSubjects, updateSubjects, deleteSubjects} from './../controller/adminController.js'
-// import { adminRules } from './../middleware/adminRules.js'
-// import { validate } from './../middleware/validate.js'
+import { rules } from './../middleware/adminRules.js'
+import { validate } from './../middleware/validate.js'
 
 const router = express.Router()
 
 // Gestión de Carreras
-router.post('/carrer', createCareers)
-router.put('/carrer', updateCareers)
-router.delete('/carrer', deleteCareers)
+router.post('/carrer', rules.createCareers, validate, createCareers)
+router.put('/carrer', rules.updateCareers, validate, updateCareers)
+router.delete('/carrer', rules.deleteCareers, validate, deleteCareers)
 
 // Gestión de Materias
-router.post('/subject', createSubjects)
-router.put('/subject', updateSubjects)
-router.delete('/subject', deleteSubjects)
+router.post('/subject', rules.createSubjects, validate, createSubjects)
+router.put('/subject', rules.updateSubjects, validate,updateSubjects)
+router.delete('/subject', rules.deleteSubjects, deleteSubjects)
 
 export default router

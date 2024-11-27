@@ -1,10 +1,9 @@
-// userController.js
 import User from './../model/user.js';
 
 // Crear un nuevo usuario
 export const createUser = async (req, res) => {
     try {
-        const users = req.body; // Array de usuarios a crear
+        const users = req.body // Array de usuarios a crear
 
         if (!Array.isArray(users) || users.length === 0) {
             return res.status(400).json({ error: "Debe proporcionar un array de usuarios para crear." });
@@ -172,7 +171,7 @@ export const getUserByValue = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: 'Error al buscar usuarios.' });
     }
-  };
+};
   
 
 // Actualizar un usuario por ID

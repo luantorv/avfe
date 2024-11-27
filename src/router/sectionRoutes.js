@@ -1,12 +1,14 @@
 import { Router } from 'express';
 const router = Router();
-import { getSectionById, createSection, updateSection, deleteSection, addSubsection, deleteSubsection } from './../controller/sectionController.js'; // Ajusta la ruta según tu estructura
+import { getSectionById, createSection, updateSection, deleteSection, addSubsection, deleteSubsection } from './../controller/sectionController.js'
+import { validate } from './../middleware/validate.js'
+import { rules } from './../middleware/sectionRules.js'
 
-router.get('/:id', getSectionById); // Obtener una sección por ID
-router.post('/create', createSection); // Crear una nueva sección
-router.put('/update/:id', updateSection); // Actualizar una sección por ID
-router.delete('/drop/:id', deleteSection); // Eliminar una sección por ID
-router.post('/subsection/:id', addSubsection); // Agregar una subsección
-router.delete('/subsection/:id', deleteSubsection); // Eliminar una subsección
+router.get('/:id', rules.byId, validate, getSectionById)
+router.post('/create', rules.create, validate, createSection)
+router.put('/update/:id', rules.update, validate, updateSection)
+router.delete('/drop/:id', rules.delete, validate,deleteSection)
+router.post('/subsection/:id', rules.addSubsection, validate, addSubsection)
+router.delete('/subsection/:id', rules.deleteSubsection, validate, deleteSubsection)
 
 export default router;

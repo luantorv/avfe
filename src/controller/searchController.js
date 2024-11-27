@@ -4,10 +4,10 @@ import Carrer from './../model/carrer.js'
 // Listar todas las materias
 export const getSubjects = async (req, res) => {
     try {
-        const subjects = await Subject.find();
-        res.status(200).json(subjects);
+      const subjects = await Subject.find();
+      res.status(200).json(subjects);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener las materias.' });
+      res.status(500).json({ error: 'Error al obtener las materias.' });
     }
 };
 

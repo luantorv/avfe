@@ -1,20 +1,21 @@
 # AVFE: Aula Virtual - Facultad de Exactas
 
-#### Este proyecto consiste en un sistema BackEnd para un posible aula virtual; en este caso, se usó de ejemplo algunas carreras y materias de la FCEQyN de la UNaM.
+#### Este proyecto consiste en un sistema BackEnd para un aula virtual.
 
 ## Introducción
 
 Considerando la dificultad que implica el desarrollo de un aula virtual, este proyecto se vió simplificado para cumplir con los plazos de entrega, y en un posible futuro poder terminarlo.
-Esta simplificación consistió principalmente en no abarcar todas las carreras de la FCEQyN, y de las que si se incluyeron, no abarcar todas sus materias.
+Esta simplificación consistió en no abarcar todas las funcionalidades que se pueden llegar a encontrar en un aula virtual completa, tales como servicios de mensajería interna, notificaciones al correo electrónico, foros, entrega de trabajos, personalización de la configuración de usuario, entre otros. 
+También no fueron abarcadas todas las carreras de la FCEQyN, y de las que si se incluyeron, no se abarcaron todas sus materias, ya que simplemente se buscó ejemplificar el funcionamiento del sistema.
 
 ## Arquitectura
 
 Para el desarrollo del proyecto se ha utlizado el FrameWork "Express" basado en Node.js, utilizando también "MongoDB" como base de datos, conectandose ambos mediante el paquete "mongoose".
-De igual forma se han utlizado otros paquetes como express-validator para el desarrollo de los middlewares a utilizar, y jsonwebtoken para gestionar los tokens de los usuarios.
+De igual forma se han utlizado otros paquetes como express-validator para el desarrollo de los middlewares a utilizar.
 
 ## Guía de Instalación
 
-#### Requisitos Previos
+### Requisitos Previos
 
 Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 
@@ -23,7 +24,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 - Git (para clonar el repositorio)
 - Un editor de texto, como Visual Studio Code
 
-#### Clonar el repositorio
+### Clonar el repositorio
 
 1. Abre tu terminal y navega a la carpeta donde deseas clonar el proyecto.
 2. Ejecuta el siguiente comando:
@@ -35,7 +36,7 @@ git clone https://github.com/tu-usuario/aula-virtual.git
 cd avfe
 ```
 
-#### Instalación de Dependencias
+### Instalación de Dependencias
 
 1. Asegurate de estar en la carpeta raíz del proyecto.
 2. Ejecuta el siguiente comando para instalar las dependencias necesarias:
@@ -43,7 +44,7 @@ cd avfe
 npm install
 ```
 
-#### Configuración del Entorno
+### Configuración del Entorno
 
 >[!NOTE]
 > El proyecto está hecho para que este paso sea opcional, solo considerar que si no se realiza este paso el puerto por defecto será el 8080
@@ -56,7 +57,7 @@ DB_URI=mongodb://localhost:27017/
 JWT_SECRET=tu_secreto_aqui  
 ```
 
-#### Iniciar el Servidor
+### Iniciar el Servidor
 
 Para ejecutar el proyecto puede utilizar alguno de los siguientes comandos:
 ```bash
@@ -66,7 +67,7 @@ npm start
 npm nodemon server.js
 ```
 
-#### Verificar la Instalación
+### Verificar la Instalación
 
 1. Abre tu navegador y navega a `http://localhost:8080` (o el puerto que hayas configurado).
 2. Deberías ver la página de inicio del aula virtual.
@@ -80,18 +81,29 @@ avfe/
         config/
             db.js
         controller/
+            adminController.js
             searchController.js
+            sectionController.js
+            subjectController.js
             userController.js
         middleware/
+            adminRules.js
+            searchRules.js
+            sectionRules.js
+            subjectRules.js
             userRules.js
             validate.js
         model/
+            carrer.js
+            section.js
             subject.js
             user.js
         other/
         router/
             adminRoutes.js
             searchRoutes.js
+            sectionRoutes.js
+            subjectRoutes.js
             userRoutes.js
         test/
         app.js
@@ -160,7 +172,7 @@ Archivo que se encarga de dirigir las peticiones al router correspondiente.
 
 ## Endpoints
 
-#### POST /admin/carrer
+### POST /admin/carrer
 Crea las carreras que se pasan en el body como un array de objetos de la siguiente manera:
 ```JSON
 [
@@ -200,7 +212,7 @@ Las respuestas notifican si las materias enviadas fueron creadas correctamente, 
 }
 ```
 
-#### PUT /admin/carrer
+### PUT /admin/carrer
 Actuliza las carreras que se envían en el body en forma de array de objetos.
 
 Para identificarlas, obligatoriamente se tienen que enviar las id's de las carreras. Los demás campos no son obligatorios, pero los que se envien van a ser actualizados con los valores proporcionados (en caso cumplan con las validaciones)
@@ -267,7 +279,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /admin/carrer
+### DELETE /admin/carrer
 Elimina las carreras que son proporcionadas en el body en forma de array de id's.
 
 Las respuestas detallan que materias de las proporcionadas fueron eliminadas, cuales no fueron encontradas y cuales han tenido algún tipo de error imprevisto (mostrando el mensaje del error)
@@ -325,7 +337,7 @@ Ejemplo:
 }
 ```
 
-#### POST /admin/subject
+### POST /admin/subject
 Crea las materias que son proporcionadas por el usuario en el body de la consulta.
 En los casos en que las materias ya existan o que las materias no pasen las validaciones de esquema serán agregadas a la parte `failed` de la respuesta y se mostrará la razón por la que falló.
 
@@ -380,7 +392,7 @@ Ejemplo:
 }
 ```
 
-#### PUT /admin/subject
+### PUT /admin/subject
 Actualiza las materias que son proporcionadas por el usuario en el body de la consulta.
 El id de las materias son obligatorias, ya que se localizarán las materias mediante este dato. En caso contrario saldrá un error.
 Los demás campos no son obligatorios y solo se deben enviar los datos que quieren ser modificados.
@@ -432,7 +444,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /admin/subject
+### DELETE /admin/subject
 Elimina las materias proporcionadas en el body de la consulta en forma de objeto.
 La respuesta notificará cuales fueron las materias eliminadas exitosamente, cuales tuvieron fallos y el porque.
 
@@ -477,10 +489,10 @@ Ejemplo:
 }
 ```
 
-#### GET /search/list
+### GET /search/list
 Lista todas las materias existentes.
 
-#### GET /search/bytype/:type
+### GET /search/bytype/:type
 Busca y muestra todas las carreras filtrando por el tipo de carrera (`type`) que el usuario especifique en la ruta como parámetro.
 
 Los `type` válidos son:
@@ -531,7 +543,7 @@ Ejemplo:
 ]
 ```
 
-#### GET /search/bycarrer/:carrer
+### GET /search/bycarrer/:carrer
 Busca y muestra todas las materias a partir de la carrera que el usuario proporcione como parámetro de la ruta.
 
 Ejemplo:
@@ -567,7 +579,7 @@ Ejemplo:
 ]
 ```
 
-#### GET /section/:id
+### GET /section/:id
 Devuelve la sección que el usuario pase como parámetro en la ruta.
 
 Ejemplo:
@@ -592,7 +604,7 @@ Ejemplo:
 }
 ```
 
-#### POST /section/create
+### POST /section/create
 Crea la sección que el usuario le pase en el body de la consulta.
 
 Ejemplo:
@@ -628,7 +640,7 @@ Ejemplo:
 }
 ```
 
-#### PUT /section/update/:id
+### PUT /section/update/:id
 Actualiza la sección con el id que se pasó como parámetro con los campos y valores que se envien en el body en forma de objeto.
 
 >[!IMPORTANT]
@@ -662,7 +674,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /section/drop/:id
+### DELETE /section/drop/:id
 Borra la sección con el id que el usuario pase como parámetro en la ruta.
 
 Ejemplo:
@@ -678,7 +690,7 @@ Ejemplo:
 }
 ```
 
-#### POST /section/add_subsection/:id
+### POST /section/add_subsection/:id
 Agrega las subsecciones que el usuario indique en el body de la consulta a la sección que se es enviada como parámetro.
 
 >[!IMPORTANT]
@@ -718,7 +730,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /section/drop_subsection/:id
+### DELETE /section/drop_subsection/:id
 Borra las subsecciones que el usuario indique en el body de la consulta a la sección que se es enviada como parámetro.
 
 Ejemplo:
@@ -752,7 +764,7 @@ Ejemplo:
 }
 ```
 
-#### GET /subject/:id
+### GET /subject/:id
 Devuelve la materia correspondiente al id que el usuario envió como parámetro en la ruta.
 
 Ejemplo:
@@ -791,7 +803,7 @@ Ejemplo:
 }
 ```
 
-#### POST /subject/student/:id
+### POST /subject/student/:id
 Añade a los estudiantes especificados en el body a la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -834,7 +846,7 @@ Ejemplo:
 >[!NOTE]
 >No se hace un `.populate('students')` ya que aunque puede servir para verificar si se añadieron los alumnos correctos, por la cantidad de alumnos que puede llegar a tener una materia se  vió contraproducente a nivel de recursos.
 
-#### POST /subject/professor/:id
+### POST /subject/professor/:id
 Añade a los profesores especificados en el body a la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -891,7 +903,7 @@ Ejemplo:
 >[!NOTE]
 >Se hace un `.populate('professors')` porque normalmente una meteria no tiene tantos profesores, por lo que no acarrearían un malgasto de recursos; además, los profesores tienen más permisos que un alumno, por lo que corroborar que un profesor sea añadido de forma correcta resulta más necesario que a un alumno.
 
-#### POST /subject/section/:id
+### POST /subject/section/:id
 Añade las secciones especificadas en el body a la materia correpondiente al id de la ruta.
 
 Ejemplo:
@@ -957,7 +969,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /subject/student/:id
+### DELETE /subject/student/:id
 Elimina a los estudiantes especificados en el body de la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -998,7 +1010,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /subject/professor/:id
+### DELETE /subject/professor/:id
 Elimina a los profesores especificados en el body de la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -1037,7 +1049,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /subject/section/:id
+### DELETE /subject/section/:id
 Elimina las secciones especificadas en el body de la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -1102,7 +1114,7 @@ Ejemplo:
 }
 ```
 
-#### GET /users/profyle/:email
+### GET /users/profyle/:email
 Muestra información básica del usuario del cuál se ha proporcionado el email.
 
 Ejemplo:
@@ -1121,7 +1133,7 @@ Ejemplo:
 }
 ```
 
-#### GET /users/list
+### GET /users/list
 Lista todos los usuarios del sistema.
 
 Ejemplo:
@@ -1173,7 +1185,7 @@ Ejemplo:
 ]
 ```
 
-#### GET /users/byemail
+### GET /users/byemail
 Busca al usuario con el email que fue enviado en la query.
 
 Ejemplo:
@@ -1197,7 +1209,7 @@ Ejemplo:
 }
 ```
 
-#### GET /users/byid
+### GET /users/byid
 Busca y devuelve al usuario del id que fue proporcionado en la query.
 
 Ejemplo:
@@ -1221,14 +1233,14 @@ Ejemplo:
 }
 ```
 
-#### GET /users/byvalue
+### GET /users/byvalue
 Busca a los usuarios que cumplan con la consulta hecha.
 
 Ejemplo:
 - Consulta:
     - Parámetro de la ruta: ninguno
     - Query: `?guest=true`
-    
+
 >[!TIP]
 >En la query se pueden concatenar consultas con `&` para conseguir respuestas más específicas.
 >Por ejemplo: `?name="Luis"&guest=false"`
@@ -1252,7 +1264,7 @@ Ejemplo:
 ]
 ```
 
-#### POST /users/create
+### POST /users/create
 Crea a los usuarios que fueron enviados en el body de la consulta en forma de array.
 
 Ejemplo:
@@ -1340,7 +1352,7 @@ Ejemplo:
 }
 ```
 
-#### PUT /users/update/:id
+### PUT /users/update/:id
 Actualiza al usuario del id proporcionado con los campos y valores que son enviados en el body de la consulta.
 
 Ejemplo:
@@ -1372,7 +1384,7 @@ Ejemplo:
 }
 ```
 
-#### DELETE /users/drop
+### DELETE /users/drop
 Borra los usuarios que son indicados en el body de la consulta en forma de array de id's.
 
 Ejemplo:
@@ -1412,7 +1424,7 @@ Para el desarrollo de los modelos se hizo uso de la libreria Mongoose, para así
 
 Se han creado cuatro modelos que se detallarán a continuación:
 
-#### carrer.js
+### carrer.js
 Este es el modelo correspondiente a las carreras existentes en el sistema.
 ```JavaScript
 import { Schema, model } from 'mongoose';
@@ -1447,7 +1459,7 @@ const CareerSchema = new Schema({
 
 export default model('Career', CareerSchema, 'carrer');
 ```
-#### subject.js
+### subject.js
 Modelo correspondiente a las materias de las carreras dentro del sistema.
 
 ```JavaScript
@@ -1479,7 +1491,7 @@ const SubjectSchema = new Schema({
 export default model('Subject', SubjectSchema, 'subject');
 ```
 
-#### section.js
+### section.js
 Modelo correspondiente a las secciones y subsecciones que pueden tener las materias.
 ```JavaScript
 import { Schema, Types, model } from 'mongoose';
@@ -1528,7 +1540,7 @@ const sectionSchema = new Schema({
 export default model('Section', sectionSchema, 'section');
 ```
 
-#### user.js
+### user.js
 Modelo que define el Schema para los datos de cada usuario.
 
 ```JavaScript
@@ -1592,9 +1604,10 @@ Las secciones tienen un campo `subsections`, en el cuál se puede referenciar a 
 Al igual cada sección tiene un campo `author` para indicar quién creó la sección o subsección.
 
 ## Créditos
+Los usuarios que se pueden encontrar en el sistema, como los ejemplos de la presente documentación son solo ejemplos, y no representan a ninguna persona, organización o institución real.
 
 Todas las carreras y materias que se han usado de ejemplo son de la Facultad de Ciencias Exactas, Químicas y Naturales de la Universidad Nacional de Misiones. 
 > Para más información: `https://www.fceqyn.unam.edu.ar/`
 
-Este proyecto fue llevado a cabo en el contexto del curso 'Desarrollo BackEnd con JavaScript' de Silicon Misiones.
+Este proyecto fue llevado a cabo en el contexto del BootCamp 'Desarrollo BackEnd con JavaScript' de Silicon Misiones.
 > Para más información: `https://siliconmisiones.gob.ar/`

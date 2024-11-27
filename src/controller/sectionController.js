@@ -1,5 +1,5 @@
-import Section from './../model/section.js';
-import mongoose from 'mongoose';
+import Section from './../model/section.js'
+import mongoose from 'mongoose'
 
 // Obtener una sección por ID
 export async function getSectionById(req, res) {
@@ -7,18 +7,18 @@ export async function getSectionById(req, res) {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "El ID proporcionado no es válido." });
+      return res.status(400).json({ error: "El ID proporcionado no es válido." })
     }
 
-    const section = await Section.findById(id).populate('subsections');
+    const section = await Section.findById(id).populate('subsections')
 
     if (!section) {
-      return res.status(404).json({ message: 'Sección no encontrada' });
+      return res.status(404).json({ message: 'Sección no encontrada' })
     }
 
     res.status(200).json(section);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
 }
 

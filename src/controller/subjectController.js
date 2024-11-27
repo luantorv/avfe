@@ -8,18 +8,18 @@ export const showSubject = async (req, res) => {
 
     // Validación básica del parámetro
     if (!id) {
-      return res.status(400).json({ message: 'Se requiere el ID de la materia.' });
+      return res.status(400).json({ message: 'Se requiere el ID de la materia.' })
     }
 
     // Buscar la materia por su ObjectId
     const subject = await Subject.findById(id);
 
     if (!subject) {
-      return res.status(404).json({ message: 'Materia no encontrada.' });
+      return res.status(404).json({ message: 'Materia no encontrada.' })
     }
 
     // Buscar las secciones relacionadas basándonos en los IDs guardados en `sectiones`
-    const sections = await Section.find({ _id: { $in: subject.sectiones } });
+    const sections = await Section.find({ _id: { $in: subject.sectiones } })
 
     // Combinar los datos de la materia con los detalles de las secciones
     const result = {
@@ -29,18 +29,18 @@ export const showSubject = async (req, res) => {
 
     res.status(200).json(result); // Devolvemos la materia con las secciones incluidas
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message })
   }
 };
 
 export const addStudents = async (req, res) => {
     try {
-        const { id } = req.params; // Obtener el ID de la materia desde los parámetros de la ruta
-        const { students } = req.body; // Obtener el array de estudiantes desde el body
+        const { id } = req.params // Obtener el ID de la materia desde los parámetros de la ruta
+        const { students } = req.body // Obtener el array de estudiantes desde el body
 
         // Validaciones básicas
         if (!id) {
-            return res.status(400).json({ message: 'Se requiere el ID de la materia.' });
+            return res.status(400).json({ message: 'Se requiere el ID de la materia.' })
         }
 
         if (!students || !Array.isArray(students) || students.length === 0) {
