@@ -8,7 +8,7 @@ const startServer = async () => {
     try {
         await listen() // Conecta a la base de datos
         app.listen(PORT, () => {
-            console.log(`listering in http://localhost:${PORT}`);
+            console.log(`listering in http://localhost:${PORT}/`);
         });
     } catch (error) {
         console.error("Error al iniciar el servidor:", error.message);
