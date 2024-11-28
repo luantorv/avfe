@@ -1,8 +1,8 @@
-import { body } from 'express-validator';
+import { body, param, check } from 'express-validator';
 
-const rules = {
+export const rules = {
     show: [
-        param('id')
+        check('id')
             .isMongoId().withMessage('El ID de la materia no es válido.')
             .not().isEmpty().withMessage('El ID de la materia es obligatorio.')
     ],
@@ -97,5 +97,3 @@ const rules = {
             }),
     ]
 }
-
-export default { rules }

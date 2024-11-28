@@ -1,0 +1,277 @@
+{
+    "Carrer":[
+        {
+            "_id":"6747d3be6b82c3f3364e8a0c",
+            "carrer_id":"IQ",
+            "name":"Ingeniería Química",
+            "type_c":"Grado",
+            "subjects":[
+                "6747d3be6b82c3f3364e8a0e",
+                "6747d3be6b82c3f3364e8a0f"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0d",
+            "carrer_id":"IA",
+            "name":"Ingeniería en Alimentos",
+            "type_c":"Grado",
+            "subjects":[
+                "6747d3be6b82c3f3364e8a0e",
+                "6747d3be6b82c3f3364e8a0g"
+            ]
+        }
+    ],
+    "Subject":[
+        {
+            "_id":"6747d3be6b82c3f3364e8a0e",
+            "name":"FÍSICA I",
+            "carrers":[
+                "IQ",
+                "IA"
+            ],
+            "professors":[
+                "6747d3be6b82c3f3364e8a0j"
+            ],
+            "students":[
+                "6747d3be6b82c3f3364e8a0h",
+                "6747d3be6b82c3f3364e8a0m",
+                "6747d3be6b82c3f3364e8a0n"
+            ],
+            "sections":[
+                "6747d3be6b82c3f3364e8a0p",
+                "6747d3be6b82c3f3364e8a0u"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0f",
+            "name":"ELEMENTOS DE MATEMÁTICA",
+            "carrers":[
+                "IQ"
+            ],
+            "professors":[
+                "6747d3be6b82c3f3364e8a0i"
+            ],
+            "students":[
+                "6747d3be6b82c3f3364e8a0h",
+                "6747d3be6b82c3f3364e8a0m"
+            ],
+            "sections":[
+                "6747d3be6b82c3f3364e8a0q",
+                "6747d3be6b82c3f3364e8a0x"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0g",
+            "name":"BIOLOGÍA",
+            "carrers":[
+                "IA"
+            ],
+            "professors":[
+                "6747d3be6b82c3f3364e8a0k"
+            ],
+            "students":[
+                "6747d3be6b82c3f3364e8a0m",
+                "6747d3be6b82c3f3364e8a0n"
+            ],
+            "sections":[
+                "6747d3be6b82c3f3364e8a0o"
+            ]
+        }
+    ],
+    "User":[
+        {
+            "_id":"6747d3be6b82c3f3364e8a0h",
+            "name":"Luis Antonio",
+            "lastname":"Reis Viera",
+            "email":"luantorvgmail.com",
+            "password":"guaraguara123",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[
+                "IQ"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0i",
+            "name":"Margarita Del Carmen",
+            "lastname":"Benítez",
+            "email":"professor1@email.com",
+            "password":"examplePassword1",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[
+                "PM"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0j",
+            "name":"Eduardo Omar",
+            "lastname":"Sosa",
+            "email":"professor2@email.com",
+            "password":"examplePassword2",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[
+                "IQ"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0k",
+            "name":"Lucas",
+            "lastname":"Podkowa",
+            "email":"professor3@email.com",
+            "password":"Pepito123.@",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[
+                "LSI"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0l",
+            "name":"admin",
+            "lastname":"4ever",
+            "email":"hacker@email.com",
+            "password":"impossiblePassword",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0m",
+            "name":"Natahel",
+            "lastname":"Golke",
+            "email":"student1@email.com",
+            "password":"examplePassword4",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[
+                "IQ",
+                "IA"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0n",
+            "name":"Maximiliano",
+            "lastname":"Sotelo",
+            "email":"student2@email.com",
+            "password":"examplePassword5",
+            "date_entry":"2024-11-28T00:00:00.000Z",
+            "guest":false,
+            "carrers":[
+                "IA"
+            ]
+        }
+    ],
+    "Section":[
+        {
+            "_id":"6747d3be6b82c3f3364e8a0o",
+            "title":"Avisos",
+            "type_sec":"news",
+            "author":"6747d3be6b82c3f3364e8a0k",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[
+                "6747d3be6b82c3f3364e8a0r"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0p",
+            "title":"Novedades",
+            "type_sec":"news",
+            "author":"6747d3be6b82c3f3364e8a0j",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[
+                "6747d3be6b82c3f3364e8a0s"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0q",
+            "title":"Avisos desde la Cátedra",
+            "type_sec":"news",
+            "author":"6747d3be6b82c3f3364e8a0i",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[
+                "6747d3be6b82c3f3364e8a0t"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0r",
+            "title":"Aviso1",
+            "type_sec":"",
+            "author":"6747d3be6b82c3f3364e8a0i",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0s",
+            "title":"Aviso2",
+            "type_sec":"",
+            "author":"6747d3be6b82c3f3364e8a0j",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0t",
+            "title":"Aviso3",
+            "type_sec":"",
+            "author":"6747d3be6b82c3f3364e8a0k",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0u",
+            "title":"Bienvenidos a Física 1",
+            "type_sec":"info",
+            "author":"6747d3be6b82c3f3364e8a0j",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[
+                "6747d3be6b82c3f3364e8a0v",
+                "6747d3be6b82c3f3364e8a0w"
+            ]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0v",
+            "title":"Libros",
+            "type_sec":"info",
+            "author":"6747d3be6b82c3f3364e8a0j",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0w",
+            "title":"Material Complementario",
+            "type_sec":"info",
+            "author":"6747d3be6b82c3f3364e8a0j",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[]
+        },
+        {
+            "_id":"6747d3be6b82c3f3364e8a0x",
+            "title":"Lógica Proposicional",
+            "type_sec":"info",
+            "author":"6747d3be6b82c3f3364e8a0i",
+            "body":"Lorem ipsum",
+            "status": true,
+            "date":"2024-11-28T00:00:00.000Z",
+            "subsections":[]
+        }
+    ]
+}

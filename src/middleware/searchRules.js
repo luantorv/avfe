@@ -1,8 +1,8 @@
 import { param } from 'express-validator';
 
-const rules = {
+export const rules = {
     byType: [
-        param('type')
+        param('type_c')
             .exists().withMessage('El parámetro type es obligatorio.')
             .isString().withMessage('El parámetro type debe ser una cadena de texto.')
             .isIn(["Ingreso", "Pregrado", "Grado", "Posgrado", "Diplomatura", "Cursos"])
@@ -15,5 +15,3 @@ const rules = {
             .isString().withMessage('El parámetro carrer debe ser una cadena de texto.')
     ]
 };
-
-export default { rules };

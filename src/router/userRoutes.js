@@ -6,7 +6,7 @@ import { validate } from './../middleware/validate.js'
 
 const router = express.Router()
 
-router.get('/profyle/:email', rules.profyle, validate, getProfyle)
+router.get('/profyle/:email', rules.profile, validate, getProfyle)
 router.get('/list', getUsers)
 router.get('/byemail', rules.byEmail, validate, getUserByEmail)
 router.get('/byid', rules.byId, validate, getUserById)

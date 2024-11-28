@@ -14,21 +14,21 @@ export const getSubjects = async (req, res) => {
 // Buscar carreras según el tipo de carrera
 export const getCareersByType = async (req, res) => {
   try {
-    const { type } = req.params // Obtener el tipo de carrera desde la consulta
+    const { type_c } = req.params // Obtener el tipo de carrera desde la consulta
 
     // Verificar que se haya proporcionado el tipo de carrera
-    if (!type) {
+    if (!type_c) {
       return res.status(400).json({ message: 'Se requiere el parámetro type.' });
     }
 
     // Verificar que el tipo sea válido según los valores permitidos
     const validTypes = ["Ingreso", "Pregrado", "Grado", "Posgrado", "Diplomatura", "Cursos"];
-    if (!validTypes.includes(type)) {
+    if (!validTypes.includes(type_c)) {
       return res.status(400).json({ message: `El parámetro type_c debe ser uno de los siguientes: ${validTypes.join(', ')}.` });
     }
 
     // Buscar las carreras por tipo
-    const careers = await Carrer.find({ type }).populate('subjects'); // Incluye las materias asociadas
+    const careers = await Carrer.find({ type_c }).populate('subjects'); // Incluye las materias asociadas
 
     if (!careers || careers.length === 0) {
       return res.status(404).json({ message: 'No se encontraron carreras con el tipo especificado.' });

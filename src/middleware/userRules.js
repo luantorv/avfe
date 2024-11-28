@@ -1,36 +1,34 @@
-import { body } from 'express-validator';
+import { body, check, query, param } from 'express-validator';
 
-const rules = {
+export const rules = {
     create: [
-        body('users')
-            .isArray().withMessage('El campo "users" debe ser un array.')
-            .notEmpty().withMessage('Debe proporcionar al menos un usuario en el array.'),
-        body('users.*.name')
+        body()
+            .isArray({ min: 1 }).withMessage('El cuerpo de la solicitud debe ser un array y contener al menos un usuario.'),
+        body('*.name')
             .notEmpty().withMessage('El campo "name" es obligatorio.')
             .isString().withMessage('El campo "name" debe ser un string.'),
-        body('users.*.lastname')
+        body('*.lastname')
             .notEmpty().withMessage('El campo "lastname" es obligatorio.')
             .isString().withMessage('El campo "lastname" debe ser un string.'),
-        body('users.*.email')
+        body('*.email')
             .notEmpty().withMessage('El campo "email" es obligatorio.')
             .isEmail().withMessage('El campo "email" debe ser una dirección de correo válida.'),
-        body('users.*.password')
+        body('*.password')
             .notEmpty().withMessage('El campo "password" es obligatorio.')
             .isString().withMessage('El campo "password" debe ser un string.'),
-        body('users.*.guest')
+        body('*.guest')
             .isBoolean().withMessage('El campo "guest" debe ser un valor booleano.')
-            .not().isEmpty().withMessage('El campo "guest" es obligatorio.'),
-        body('users.*.carrers')
-            .notEmpty().withMessage('El campo "carrers" es obligatorio.')
-            .isArray().withMessage('El campo "carrers" debe ser un array.')
+            .notEmpty().withMessage('El campo "guest" es obligatorio.'),
+        body('*.carrers')
+            .isArray({ min: 1 }).withMessage('El campo "carrers" debe ser un array con al menos una carrera.')
             .custom(carrers => {
                 // Verifica que cada carrera en el array sea un string no vacío
-                if (carrers.some(career => typeof career !== 'string' || career.trim() === '')) {
+                if (!carrers.every(career => typeof career === 'string' && career.trim() !== '')) {
                     throw new Error('Cada carrera debe ser una cadena no vacía.');
                 }
                 return true;
-            }),
-    ],
+            })
+    ],    
     profile: [
         param('email')
             .notEmpty().withMessage('El campo "email" es obligatorio.')
@@ -61,7 +59,7 @@ const rules = {
             .isBoolean().withMessage('El parámetro "guest" debe ser un valor booleano.'),
     ],
     update: [
-        param('id')
+        check('id')
             .isMongoId().withMessage('El parámetro "id" debe ser un ID de MongoDB válido.'),
         body('name')
             .optional()
@@ -98,5 +96,3 @@ const rules = {
             .withMessage('Cada usuario debe contener un _id válido de MongoDB.')
     ],
 }
-
-export default { rules }

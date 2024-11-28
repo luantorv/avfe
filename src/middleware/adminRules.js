@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-const rules = {
+export const rules = {
     createCareers: [
         body()
             .isArray().withMessage('El body debe ser un array de carreras.'),
@@ -68,7 +68,7 @@ const rules = {
     updateSubjects: [
         body()
             .isArray({ min: 1 }).withMessage('El body debe ser un array con al menos una materia para actualizar.'),
-        body('*.id')
+        body('*._id')
             .exists().withMessage('El campo _id es obligatorio.')
             .isMongoId().withMessage('El campo _id debe ser un ID de Mongo válido.'),
         body('*.name')
@@ -95,6 +95,4 @@ const rules = {
         body('subject_ids.*')
             .isMongoId().withMessage('Cada elemento de subject_ids debe ser un ID de Mongo válido.'),
     ]
-};
-
-export default { rules };
+}

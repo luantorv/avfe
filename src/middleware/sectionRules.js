@@ -1,6 +1,6 @@
-import { param } from 'express-validator';
+import { param, body } from 'express-validator';
 
-const rules = {
+export const rules = {
     byId: [
         param('id')
             .exists().withMessage('El parámetro id es obligatorio.')
@@ -64,5 +64,3 @@ const rules = {
             .not().isEmpty().withMessage('El ID de la subsección es obligatorio.')
     ]
 }
-
-export default { rules };

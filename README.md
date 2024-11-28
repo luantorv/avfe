@@ -69,8 +69,8 @@ npm nodemon server.js
 
 ### Verificar la Instalación
 
-1. Abre tu navegador y navega a `http://localhost:8080` (o el puerto que hayas configurado).
-2. Deberías ver la página de inicio del aula virtual.
+1. Abre tu navegador y navega a `http://localhost:8080` (o el puerto que hayas configurado), con alguno de los EndPoints disponibles
+2. Deberías poder interactuar con dicho EndPoint.
 
 ## Estructura de la Aplicación
 
@@ -130,7 +130,11 @@ Contiene los controladores que manejan la lógica para las diferentes entidades 
 
 `middleware`
 Contiene los middlewares para la validación de datos.
-- `userRules.js`: Las reglas de validación para la creación de usuarios
+- `adminRules.js`: Las reglas de validación para los diferentes endpoints de `adminRoutes.js`
+- `searchRules.js`: Las reglas de validación para los diferentes endpoints de `searchRoutes.js`
+- `sectionRules.js`: Las reglas de validación para los diferentes endpoints de `sectionRoutes.js`
+- `subjectRules.js`: Las reglas de validación para los diferentes endpoints de `subjectRoutes.js`
+- `userRules.js`: Las reglas de validación para los diferentes endpoints de `userRoutes.js`
 - `validate.js`: Recibe el array de errores de las validaciones, si está vacio permite que la petición pase al controlador correspondiente, sino, devuelve el array de errores.
 
 `model`
@@ -141,7 +145,8 @@ Define los esquemas y modelos de datos de MongoDB utilizando Mongoose.
 - `user.js`: Modelo para los usuarios
 
 `other`
-Carpeta destinada a agregar archivos adjuntos al proyecto. De momento no se han guardado archivos.
+Carpeta destinada a agregar archivos adjuntos al proyecto. 
+- `avfe.json`: Archivo JSON con ejemplos de datos.
 
 `router`
 Define las rutas de la API y asigna los controladores correspondientes.
@@ -213,7 +218,7 @@ Las respuestas notifican si las materias enviadas fueron creadas correctamente, 
 ```
 
 ### PUT /admin/carrer
-Actuliza las carreras que se envían en el body en forma de array de objetos.
+Actualiza las carreras que se envían en el body en forma de array de objetos.
 
 Para identificarlas, obligatoriamente se tienen que enviar las id's de las carreras. Los demás campos no son obligatorios, pero los que se envien van a ser actualizados con los valores proporcionados (en caso cumplan con las validaciones)
 
@@ -1604,7 +1609,7 @@ Las secciones tienen un campo `subsections`, en el cuál se puede referenciar a 
 Al igual cada sección tiene un campo `author` para indicar quién creó la sección o subsección.
 
 ## Créditos
-Los usuarios que se pueden encontrar en el sistema, como los ejemplos de la presente documentación son solo ejemplos, y no representan a ninguna persona, organización o institución real.
+Los usuarios que se pueden encontrar en el sistema, como los de la presente documentación son solo ejemplos, y no representan a ninguna persona, organización o institución real.
 
 Todas las carreras y materias que se han usado de ejemplo son de la Facultad de Ciencias Exactas, Químicas y Naturales de la Universidad Nacional de Misiones. 
 > Para más información: `https://www.fceqyn.unam.edu.ar/`
