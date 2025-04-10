@@ -12,7 +12,7 @@ router.delete('/carrer', rules.deleteCareers, validate, deleteCareers)
 
 // Gestión de Materias
 router.post('/subject', rules.createSubjects, validate, createSubjects)
-router.put('/subject', rules.updateSubjects, validate,updateSubjects)
-router.delete('/subject', rules.deleteSubjects, deleteSubjects)
+router.put('/subject', rules.updateSubjects, validate, updateSubjects)
+router.delete('/subject', rules.deleteSubjects, validate, deleteSubjects)
 
 export default router
