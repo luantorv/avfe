@@ -5,12 +5,15 @@
 ## Introducción
 
 Considerando la dificultad que implica el desarrollo de un aula virtual, este proyecto se vió simplificado para cumplir con los plazos de entrega, y en un posible futuro poder terminarlo.
+
 Esta simplificación consistió en no abarcar todas las funcionalidades que se pueden llegar a encontrar en un aula virtual completa, tales como servicios de mensajería interna, notificaciones al correo electrónico, foros, entrega de trabajos, personalización de la configuración de usuario, entre otros. 
+
 También no fueron abarcadas todas las carreras de la FCEQyN, y de las que si se incluyeron, no se abarcaron todas sus materias, ya que simplemente se buscó ejemplificar el funcionamiento del sistema.
 
 ## Arquitectura
 
 Para el desarrollo del proyecto se ha utlizado el FrameWork "Express" basado en Node.js, utilizando también "MongoDB" como base de datos, conectandose ambos mediante el paquete "mongoose".
+
 De igual forma se han utlizado otros paquetes como express-validator para el desarrollo de los middlewares a utilizar.
 
 ## Guía de Instalación
@@ -29,7 +32,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
 1. Abre tu terminal y navega a la carpeta donde deseas clonar el proyecto.
 2. Ejecuta el siguiente comando:
 ```bash
-git clone https://github.com/tu-usuario/aula-virtual.git
+git clone https://github.com/luantorv/avfe.git
 ```
 3. Ingresa al directorio del proyecto:
 ```bash
@@ -75,6 +78,7 @@ npm nodemon server.js
 ## Estructura de la Aplicación
 
 El proyecto está organizado para seguir las mejores prácticas de desarrollo de APIs RESTful, utilizando un enfoque modular y escalable. A continuación, se describe la estructura de carpetas y archivos:
+
 ```
 avfe/
     src/
@@ -116,12 +120,15 @@ avfe/
 
 #### Descipción de Carpetas y Archivos
 
-`config` 
+`config`
+
 Configuraciones del proyecto, como la conexión a la base de datos.
 - `db.js`: Configura y exporta la conexión a MongoDB.
 
 `controller`
+
 Contiene los controladores que manejan la lógica para las diferentes entidades del sistema.
+
 - `adminController.js`: Gestión de las peticiones que ingresan a la ruta `/admin`. Que incluyen funciones para el manejo global de carreras y materias.
 - `searchController.js`: Gestión de las peticiones de la sección de búsqueda de materias.
 - `sectionController.js`: Gestión de las peticiones exclusivas de las secciones que puede tener una materia.
@@ -129,7 +136,9 @@ Contiene los controladores que manejan la lógica para las diferentes entidades 
 - `userController.js`: Gestión de las peticiones relacionadas a la correspondiente ruta.
 
 `middleware`
+
 Contiene los middlewares para la validación de datos.
+
 - `adminRules.js`: Las reglas de validación para los diferentes endpoints de `adminRoutes.js`
 - `searchRules.js`: Las reglas de validación para los diferentes endpoints de `searchRoutes.js`
 - `sectionRules.js`: Las reglas de validación para los diferentes endpoints de `sectionRoutes.js`
@@ -138,18 +147,24 @@ Contiene los middlewares para la validación de datos.
 - `validate.js`: Recibe el array de errores de las validaciones, si está vacio permite que la petición pase al controlador correspondiente, sino, devuelve el array de errores.
 
 `model`
+
 Define los esquemas y modelos de datos de MongoDB utilizando Mongoose.
+
 - `carrer.js`: Modelo para las carreras
 - `subject.js`: Modelo para las secciones
 - `subject.js`: Modelo para las materias
 - `user.js`: Modelo para los usuarios
 
 `other`
+
 Carpeta destinada a agregar archivos adjuntos al proyecto. 
+
 - `avfe.json`: Archivo JSON con ejemplos de datos.
 
 `router`
+
 Define las rutas de la API y asigna los controladores correspondientes.
+
 - `adminRoutes.js`: Rutas disponibles para la gestión del sistema en general por parte de un administrador (`/subject`,`/carrer`)
 - `searchRoutes.js`: Rutas para la búsqueda de materias (`/list`,`/byid`,`/bycarrer`)
 - `sectionRoutes.js`: Rutas disponibles para la visualización y gestión de secciones dentro de una materia (`/:id`,`/create`,`/update/:id`,`/drop/:id`,`/add_subsection/:id`,`/delete_subsection/:id`)
@@ -157,9 +172,11 @@ Define las rutas de la API y asigna los controladores correspondientes.
 - `userRoutes.js`: Rutas disponibles para la gestión de usuarios (`/byemail`,`/byid`,`/list`,`/create`,`/update`,`/drop`)
 
 `test`
+
 Carpeta destinada a guardar todos los test del proyecto. De momento no han creado test.
 
 `app.js`
+
 Archivo que se encarga de dirigir las peticiones al router correspondiente.
 
 ##### Archivos Raíz
@@ -344,6 +361,7 @@ Ejemplo:
 
 ### POST /admin/subject
 Crea las materias que son proporcionadas por el usuario en el body de la consulta.
+
 En los casos en que las materias ya existan o que las materias no pasen las validaciones de esquema serán agregadas a la parte `failed` de la respuesta y se mostrará la razón por la que falló.
 
 Ejemplo:
@@ -400,10 +418,13 @@ Ejemplo:
 ### PUT /admin/subject
 Actualiza las materias que son proporcionadas por el usuario en el body de la consulta.
 El id de las materias son obligatorias, ya que se localizarán las materias mediante este dato. En caso contrario saldrá un error.
+
 Los demás campos no son obligatorios y solo se deben enviar los datos que quieren ser modificados.
+
 En caso de que no se encuentren las materias o alguno de los datos no cumplan algun requisito de esquema, se verá reflejado en la parte `failed` de la respuesta, acompañado de la razón del fallo.
 
 Ejemplo:
+
 - Consulta:
     - Parámetros de ruta: ninguna
     - Body (JSON)
@@ -423,6 +444,7 @@ Ejemplo:
 - Respuesta Mixta:
     - Codigo de Estado: `200 OK`
     - Cuerpo (JSON)
+
 ```JSON
 {
     "message": "Proceso de actualización completado.",
@@ -646,6 +668,7 @@ Ejemplo:
 ```
 
 ### PUT /section/update/:id
+
 Actualiza la sección con el id que se pasó como parámetro con los campos y valores que se envien en el body en forma de objeto.
 
 >[!IMPORTANT]
@@ -680,6 +703,7 @@ Ejemplo:
 ```
 
 ### DELETE /section/drop/:id
+
 Borra la sección con el id que el usuario pase como parámetro en la ruta.
 
 Ejemplo:
@@ -696,10 +720,12 @@ Ejemplo:
 ```
 
 ### POST /section/add_subsection/:id
+
 Agrega las subsecciones que el usuario indique en el body de la consulta a la sección que se es enviada como parámetro.
 
 >[!IMPORTANT]
 >Esta ruta no crea las subsecciones, solo las añade al campo `subsections` que tiene la sección que las va a contener.
+>
 >Por lo que primero tiene que ir a `/section/create` para crear la/s secciones que pasarán a ser subsecciones, copiar los `_id` de cada una y ahí venir a esta ruta para agregarlas.
 
 Ejemplo:
@@ -736,6 +762,7 @@ Ejemplo:
 ```
 
 ### DELETE /section/drop_subsection/:id
+
 Borra las subsecciones que el usuario indique en el body de la consulta a la sección que se es enviada como parámetro.
 
 Ejemplo:
@@ -770,6 +797,7 @@ Ejemplo:
 ```
 
 ### GET /subject/:id
+
 Devuelve la materia correspondiente al id que el usuario envió como parámetro en la ruta.
 
 Ejemplo:
@@ -809,6 +837,7 @@ Ejemplo:
 ```
 
 ### POST /subject/student/:id
+
 Añade a los estudiantes especificados en el body a la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -852,6 +881,7 @@ Ejemplo:
 >No se hace un `.populate('students')` ya que aunque puede servir para verificar si se añadieron los alumnos correctos, por la cantidad de alumnos que puede llegar a tener una materia se  vió contraproducente a nivel de recursos.
 
 ### POST /subject/professor/:id
+
 Añade a los profesores especificados en el body a la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -909,6 +939,7 @@ Ejemplo:
 >Se hace un `.populate('professors')` porque normalmente una meteria no tiene tantos profesores, por lo que no acarrearían un malgasto de recursos; además, los profesores tienen más permisos que un alumno, por lo que corroborar que un profesor sea añadido de forma correcta resulta más necesario que a un alumno.
 
 ### POST /subject/section/:id
+
 Añade las secciones especificadas en el body a la materia correpondiente al id de la ruta.
 
 Ejemplo:
@@ -975,6 +1006,7 @@ Ejemplo:
 ```
 
 ### DELETE /subject/student/:id
+
 Elimina a los estudiantes especificados en el body de la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -1016,6 +1048,7 @@ Ejemplo:
 ```
 
 ### DELETE /subject/professor/:id
+
 Elimina a los profesores especificados en el body de la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -1055,6 +1088,7 @@ Ejemplo:
 ```
 
 ### DELETE /subject/section/:id
+
 Elimina las secciones especificadas en el body de la materia correspondiente al id de la ruta.
 
 Ejemplo:
@@ -1120,6 +1154,7 @@ Ejemplo:
 ```
 
 ### GET /users/profyle/:email
+
 Muestra información básica del usuario del cuál se ha proporcionado el email.
 
 Ejemplo:
@@ -1139,15 +1174,18 @@ Ejemplo:
 ```
 
 ### GET /users/list
+
 Lista todos los usuarios del sistema.
 
 Ejemplo:
+
 - Consulta:
     - Parámetro de la ruta: ninguno
     - Body (JSON): ninguno
 - Respuesta:
     - Código de Estado: `200 OK`
     - Body (JSON)
+
 ```JSON
 [
     {
@@ -1191,6 +1229,7 @@ Ejemplo:
 ```
 
 ### GET /users/byemail
+
 Busca al usuario con el email que fue enviado en la query.
 
 Ejemplo:
@@ -1215,6 +1254,7 @@ Ejemplo:
 ```
 
 ### GET /users/byid
+
 Busca y devuelve al usuario del id que fue proporcionado en la query.
 
 Ejemplo:
@@ -1239,6 +1279,7 @@ Ejemplo:
 ```
 
 ### GET /users/byvalue
+
 Busca a los usuarios que cumplan con la consulta hecha.
 
 Ejemplo:
@@ -1270,6 +1311,7 @@ Ejemplo:
 ```
 
 ### POST /users/create
+
 Crea a los usuarios que fueron enviados en el body de la consulta en forma de array.
 
 Ejemplo:
@@ -1358,6 +1400,7 @@ Ejemplo:
 ```
 
 ### PUT /users/update/:id
+
 Actualiza al usuario del id proporcionado con los campos y valores que son enviados en el body de la consulta.
 
 Ejemplo:
@@ -1390,6 +1433,7 @@ Ejemplo:
 ```
 
 ### DELETE /users/drop
+
 Borra los usuarios que son indicados en el body de la consulta en forma de array de id's.
 
 Ejemplo:
@@ -1425,6 +1469,7 @@ Ejemplo:
 `500 Internal Server Error`: Error inesperado del servidor.
 
 ## Modelos de Datos
+
 Para el desarrollo de los modelos se hizo uso de la libreria Mongoose, para así crear los schemas necesarios. Estos pueden ser encontrados en `./avfe/src/model/`
 
 Se han creado cuatro modelos que se detallarán a continuación:
@@ -1464,7 +1509,9 @@ const CareerSchema = new Schema({
 
 export default model('Career', CareerSchema, 'carrer');
 ```
+
 ### subject.js
+
 Modelo correspondiente a las materias de las carreras dentro del sistema.
 
 ```JavaScript
@@ -1497,7 +1544,9 @@ export default model('Subject', SubjectSchema, 'subject');
 ```
 
 ### section.js
+
 Modelo correspondiente a las secciones y subsecciones que pueden tener las materias.
+
 ```JavaScript
 import { Schema, Types, model } from 'mongoose';
 
@@ -1546,6 +1595,7 @@ export default model('Section', sectionSchema, 'section');
 ```
 
 ### user.js
+
 Modelo que define el Schema para los datos de cada usuario.
 
 ```JavaScript
@@ -1587,28 +1637,36 @@ export default model('User', UserSchema, 'user');
 ```
 
 ### Relaciones Entre Modelos
+
 Mediante campos con id's de otros modelos o campos de arrays con id's de otros modelos, éstos se relacionan para poder realizar las diferentes funciones. 
 
 ###### Carrer ↔ Subject
+
 Cada carrera tiene un conjunto de materias que se describen en el campo `subjects` en forma de array.
 Al igual, cada materia tiene un conjunto de carreras denotadas en el campo `carrers`.
 
 ###### User ↔ Carrer
+
 Cada usuario tiene un array destinado a guardar las id's de las carreras a las que está inscripto.
 
 ###### Subject ↔ Section
+
 Cada materia puede tener secciones para guardar y mostrar su información. Éstas estan guardadas en el campo `sections`.
 
 ###### Subject ↔ User
+
 En las materias se guardan dos campos destinados a usuarios `students` y `professors`, para indicar los usuarios con estos roles.
 
 ###### Section ↔ Section
+
 Las secciones tienen un campo `subsections`, en el cuál se puede referenciar a otras secciones para poder estructurar la información.
 
 ###### Section ↔ User
+
 Al igual cada sección tiene un campo `author` para indicar quién creó la sección o subsección.
 
 ## Créditos
+
 Los usuarios que se pueden encontrar en el sistema, como los de la presente documentación son solo ejemplos, y no representan a ninguna persona, organización o institución real.
 
 Todas las carreras y materias que se han usado de ejemplo son de la Facultad de Ciencias Exactas, Químicas y Naturales de la Universidad Nacional de Misiones. 
