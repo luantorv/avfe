@@ -22,5 +22,5 @@ jobs:
 
       - name: Push mirror
         run: |
-          git remote add codeberg git@codeberg.org:TU_USUARIO/${{ github.event.repository.name }}.git || true
+          git remote add codeberg git@codeberg.org:luantorv/${{ github.event.repository.name }}.git || true
           git push --mirror codeberg
